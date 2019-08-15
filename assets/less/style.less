@@ -1,0 +1,24 @@
+@import 'colors';
+h1 {
+  text-align: center;
+}
+#creator-place {
+  background-color: @background-color;
+  display: flex;
+  flex-wrap: wrap;
+  .grid {
+    border: 1px solid #363636;
+    display: grid;
+    grid-template-columns: 25px 25px 25px;
+    .path {
+      display: block;
+      width: 25px;
+      height: 25px;
+      border: 1px solid #ffc135;
+      cursor: pointer;
+      &:hover {
+        background-color: #d0d3f3;
+      }
+    }
+  }
+}
