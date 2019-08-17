@@ -1,154 +1,130 @@
 var countClick = 0;
 var renderFinish = false;
 var startSelected = false;
-var labiryntArray = [];
-var selectedPath = [];
+
+var pathArray = [];
+let availablePathsArray = [];
+var activePathArray = [];
+var labyrinthArray = [];
+
 var validPathOptions = [];
 var validGridOptions = [];
 var validPaths = [];
 
-validPathOptions[0] = [1, 2, 3, 6];
-validPathOptions[1] = [0, 2, 4, 7];
-validPathOptions[2] = [0, 1, 5, 8];
-validPathOptions[3] = [0, 4, 5, 6];
-validPathOptions[4] = [1, 3, 5, 7];
-validPathOptions[5] = [2, 3, 4, 8];
-validPathOptions[6] = [0, 3, 7, 8];
-validPathOptions[7] = [1, 4, 6, 8];
-validPathOptions[8] = [2, 5, 6, 7];
+// var disablePath = [
+//     {
+//         selectedOptions: [4, 5, 2],
+//         blockPathNumber: 1
+//     },
+//     {
+//         selectedOptions: [4, 5, 8],
+//         blockPathNumber: 7
+//     },
+//     {
+//         selectedOptions: [6, 5, 2],
+//         blockPathNumber: 3
+//     },
+//     {
+//         selectedOptions:[6, 5, 8],
+//         blockPathNumber: 9
+//     },
+//     {
+//         selectedOptions: [1, 4, 5],
+//         blockPathNumber: 2
+//     },
+//     {
+//         selectedOptions: [3, 6, 5],
+//         blockPathNumber: 2
+//     },
+//     {
+//         selectedOptions: [1, 2, 5],
+//         blockpathNumber: 4
+//     },
+//     {
+//         selectedOptions: [7, 8, 5],
+//         blockPathNumber: 4
+//     },
+//     {
+//         selectedOptions: [3, 2, 5],
+//         blockPathNumber: 6
+//     },
+//     {
+//         selectedOptions: [9, 8, 5],
+//         blockPathNumber: 6
+//     },
+//     {
+//         selectedOptions: [7, 4, 5],
+//         blockPathNumber: 8
+//     },
+//     {
+//         selectedOptions: [9, 6, 5],
+//         blockPathNumber: 8
+//     }
+// ];
 
-var disablePath = [
-    {
-        selectedOptions: [4, 5, 2],
-        blockPathNumber: 1
-    },
-    {
-        selectedOptions: [4, 5, 8],
-        blockPathNumber: 7
-    },
-    {
-        selectedOptions: [6, 5, 2],
-        blockPathNumber: 3
-    },
-    {
-        selectedOptions:[6, 5, 8],
-        blockPathNumber: 9
-    },
-    {
-        selectedOptions: [1, 4, 5],
-        blockPathNumber: 2
-    },
-    {
-        selectedOptions: [3, 6, 5],
-        blockPathNumber: 2
-    },
-    {
-        selectedOptions: [1, 2, 5],
-        blockpathNumber: 4
-    },
-    {
-        selectedOptions: [7, 8, 5],
-        blockPathNumber: 4
-    },
-    {
-        selectedOptions: [3, 2, 5],
-        blockPathNumber: 6
-    },
-    {
-        selectedOptions: [9, 8, 5],
-        blockPathNumber: 6
-    },
-    {
-        selectedOptions: [7, 4, 5],
-        blockPathNumber: 8
-    },
-    {
-        selectedOptions: [9, 6, 5],
-        blockPathNumber: 8
-    }
-];
-
-function showValidOptions(gridI, pathIndex) {
-    var allPathOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-    Array.prototype.slice.call(validPathOptions[pathIndex]).map(option => {
-        var rest = allPathOptions.indexOf(parseFloat(option));
-        var gridElement = document.getElementsByClassName('grid');
+function showValidOptions(pathIndex) {
+    console.log('show valid Options', pathIndex);
+    let activePaths = availablePathsArray
+    const validOptions = Array.from(validPathOptions[pathIndex]).forEach(function (option) {
+        console.log('FOR EACH', option);
+        const rest = activePaths.indexOf(parseFloat(option));
+        const pathOption = document.getElementsByClassName('path')[option];
 
         if (rest > -1) {
-            allPathOptions.splice(rest, 1);
+            activePaths.splice(rest, 1);
         }
+        console.log('ACTIVE PATHS', activePaths);
+        console.log('OPTION', option);
+        console.log('ACTIVE PATH ARRAY', activePathArray);
+        if (activePathArray[option]) {
+            labyrinthArray[pathIndex].selected = true;
+            activePathArray[pathIndex] = false;
 
-        Array.prototype.slice.call(gridElement).map(grid => {
-            if (grid.dataset.gridIndex === gridI) {
-                grid.getElementsByClassName('path')[option].classList.add('to-use');
-                Array.prototype.slice.call(allPathOptions).map(r => {
-                    grid.getElementsByClassName('path')[r].classList.remove('to-use');
-                });
+            pathOption.style.pointerEvents = 'auto';
+            pathOption.classList.add('to-use');
+        }
+    });
+    activePaths = Array.from(activePaths);
+    const paths = Array.from(document.getElementsByClassName('path')).forEach(function (item) {
+        activePaths.forEach(function (ap) {
+            if (parseFloat(item.dataset.pathIndex) === ap) {
+                item.style.pointerEvents = 'none';
+                item.classList.remove('to-use');
             }
         });
+        if (!activePathArray[item.dataset.pathIndex]) {
+            item.style.pointerEvents = 'none';
+            item.classList.remove('to-use');
+        }
     });
 }
 
-function selectStart(grid, element, index) {
+function selectStart(element, index) {
     if (renderFinish) {
-        console.log('select start', element);
         countClick = 1;
         element.classList.add('start-selected');
-        selectedPath.push({selected: true, grid: parseFloat(grid), path: parseFloat(index)});
         startSelected = true;
-        showValidOptions(grid, index);
-        console.log(selectedPath);
+        showValidOptions(index);
     }
 }
 
-function selectPath(grid, element, index) {
-    if (startSelected && renderFinish && labiryntArray.length !== 0) {
-        // console.log('select path', element);
-        // console.log('labirynt array', labiryntArray);
-        // var selectedPathElement = document.getElementsByClassName('path-' + index + 1);
-        // console.log('Disable Paths', disablePath);
-        // var selected;
-        // selectedPath.push(index + 1);
-        // for (var grid = 0; grid < labiryntArray.length; grid++) {
-        //     selected = labiryntArray[grid].paths.pathsClassIndex[index];
-        //     console.log('SELECTED PATH', labiryntArray[grid].paths.pathsClassIndex[index]);
-        //     if (selectedPath.length > 3) {
-        //         selectedPath = [];
-        //     }
-        //     for (var disabledOptionIndex = 0; disabledOptionIndex < disablePath.length; disabledOptionIndex++) {
-        //         console.log('Selected Option', disablePath[disabledOptionIndex].selectedOptions, selectedPath, disablePath[disabledOptionIndex].selectedOptions.every(v => selectedPath.includes(v)));
-        //         if (disablePath[disabledOptionIndex].selectedOptions.every(v => selectedPath.includes(v))) {
-        //             var gridEls = document.getElementsByClassName('grid-' + grid);
-        //             console.log(gridEls);
-        //             var el = gridEls[0].children[disablePath[disabledOptionIndex].blockPathNumber - 1];
-        //             // el.classList.add('disabled');
-        //             el.classList.add('disabled');
-        //             console.log('disabled element', el);
-        //             console.log('Should be disabled', disablePath[disabledOptionIndex].blockPathNumber);
-        //         }
-        //     }
-        // }
-
-        selectedPath.push({selected: true, grid: parseFloat(grid), path: parseFloat(index)});
-        console.log('SELECTED', selectedPath[selectedPath.length - 1]);
-        showValidOptions(grid, index);
-
+function selectPath(element, index) {
+    if (startSelected && renderFinish && labyrinthArray.length !== 0) {
         element.classList.add('selected');
+        showValidOptions(index);
     }
 }
 
 function buildMaze(event) {
     var element = event.target;
-    var gridId = element.dataset.gridId;
-    var pathId = element.dataset.pathId;
+    var pathId = parseFloat(element.dataset.pathIndex);
 
     switch (countClick) {
         case 0:
-            selectStart(gridId, element, pathId);
-            console.log('LABIRYNT ARRAY', labiryntArray);
+            selectStart(element, pathId);
             break;
         case 1:
-            selectPath(gridId, element, pathId);
+            selectPath(element, pathId);
             break;
         default:
             return false;
@@ -159,28 +135,16 @@ window.onload = function () {
     console.log('Main JS');
     var acceptButton = document.getElementById('accept-settings');
 
-    function renderPath(gridIndex) {
-        var pathArray = [];
-
-        for (var path = 0; path < 9; path++) {
-            var pathTemplate = `<div data-grid-id="${gridIndex}" data-path-id="${path}" class="path">${path}</div>`;
-
-            pathArray.push(pathTemplate);
-
-            labiryntArray.push({selected: false, grid: gridIndex, path});
-        }
-
-        return pathArray.map(e => e);
-    }
-
     var lastChange = 0;
     var renderPlace = (event) => {
         event.preventDefault();
 
-        var gridSettingsNumber = document.getElementById('grid-settings').value;
-        var allGrids = gridSettingsNumber * gridSettingsNumber;
+        var gridSettingsNumber = parseFloat(document.getElementById('grid-settings').value);
+        var roundWalls = gridSettingsNumber + 2;
+        var sumOfPaths = roundWalls * roundWalls;
         var place = document.getElementById('creator-place');
-        var placeWidth = gridSettingsNumber * (25 * 3) + (gridSettingsNumber * 2);
+        var placeWidth = roundWalls * (25 + 2);
+        var fragment = document.createDocumentFragment();
 
         if (gridSettingsNumber > 0) {
             if (lastChange !== gridSettingsNumber) {
@@ -189,20 +153,110 @@ window.onload = function () {
 
             lastChange = parseFloat(gridSettingsNumber);
 
-            for (var grid = 0; grid < allGrids; grid++) {
-                validGridOptions[grid] = [grid + 1, grid - 1, grid + parseFloat(gridSettingsNumber), grid - parseFloat(gridSettingsNumber)]
-                place.innerHTML += `<div class="grid" data-grid-index="${grid}">${renderPath(grid).join('')}</div>`;
+            for (var p = 0; p < sumOfPaths; p++) {
+                pathArray.push(p);
+                const path = document.createElement('div');
+                path.dataset.pathIndex = p;
+                path.textContent = p;
+                path.classList.add('path');
+
+                fragment.appendChild(path);
             }
+            place.appendChild(fragment);
 
             place.style.width = placeWidth + 'px';
             renderFinish = true;
         }
         if (renderFinish) {
-            Array.prototype.slice.call(document.getElementsByClassName('path')).map(el => {
-                el.addEventListener('click', event => {
-                    buildMaze(event);
+            let prev = 0;
+            const paths = Array.from(place.querySelectorAll('div'));
+            const outer = paths.forEach(function (item) {
+                const pathIndex = parseFloat(item.dataset.pathIndex);
+                const isOutside = item.dataset.pathIndex <= roundWalls
+                || item.dataset.pathIndex - prev === roundWalls
+                || item.dataset.pathIndex > sumOfPaths - roundWalls
+                && item.dataset.pathIndex < sumOfPaths + 1;
+
+                const rightSide = item.dataset.pathIndex - prev === roundWalls - 1;
+
+                if (isOutside) {
+                    prev = item.dataset.pathIndex;
+                }
+                if (isOutside || rightSide) {
+                    item.classList.add('disabled');
+                }
+
+                if (item.className.indexOf('disabled') < 0) {
+                    validPathOptions[pathIndex] = [pathIndex ,pathIndex + 1, pathIndex - 1, pathIndex + parseFloat(roundWalls), pathIndex - parseFloat(roundWalls)];
+                    availablePathsArray.push(pathIndex);
+                    activePathArray[pathIndex] = true;
+                    labyrinthArray.push({
+                        active: true,
+                        selected: false,
+                        pathId: pathIndex,
+                    });
+                } else {
+                    labyrinthArray.push({
+                        active: false,
+                        selected: false,
+                        pathId: pathIndex,
+                    });
+                }
+                item.addEventListener('click', event => {
+                    const elementIndex = pathIndex;
+
+                    if (labyrinthArray[elementIndex].active) {
+                        buildMaze(event);
+                    }
                 }, true);
             });
+            // for (var indexLeft = 0; indexLeft < pathArray.length; indexLeft = indexLeft + roundWalls) {
+            //     Array.prototype.slice.call(document.getElementsByClassName('path')).map((el, i) => {
+            //         if (i < roundWalls) {
+            //             el.classList.add('disabled');
+            //         }
+            //         if (i === indexLeft) {
+            //             el.classList.add('disabled');
+            //         }
+            //         if (i === indexLeft + roundWalls - 1 + roundWalls) {
+            //             el.classList.add('disabled');
+            //         }
+            //         if (i > roundWalls * (roundWalls - 1)) {
+            //             el.classList.add('disabled');
+            //         }
+            //     });
+            // }
+
+            // Array.prototype.slice.call(document.getElementsByClassName('path')).map((el, i) => {
+            //     if (el.className.indexOf('disabled') < 0) {
+            //         validPathOptions[i] = [i + 1, i - 1, i + parseFloat(roundWalls), i - parseFloat(roundWalls)];
+            //         availablePathsArray.push(i);
+            //         activePathArray[i] = true;
+            //         labyrinthArray.push({
+            //             active: true,
+            //             selected: false,
+            //             pathId: i,
+            //         });
+            //     } else {
+            //         labyrinthArray.push({
+            //             active: false,
+            //             selected: false,
+            //             pathId: i,
+            //         });
+            //     }
+            // });
+            // if (labyrinthArray.length > 0) {
+            //     Array.prototype.slice.call(document.getElementsByClassName('path')).map((el, i) => {
+            //         el.addEventListener('click', event => {
+            //             var element = event.target;
+            //             var elementIndex = element.dataset.pathIndex;
+
+            //             if (labyrinthArray[elementIndex].active) {
+            //                 buildMaze(event);
+            //             }
+            //         }, true);
+            //     });
+            // }
         }
     };
 
