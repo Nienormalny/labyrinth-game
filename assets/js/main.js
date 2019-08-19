@@ -4,78 +4,51 @@ var startSelected = false;
 
 var pathArray = [];
 let availablePathsArray = [];
+let disablePathsArray = [];
 var activePathArray = [];
+var disPathArray = [];
 var labyrinthArray = [];
 
 var validPathOptions = [];
+var disabledPathOptions = [];
 var validGridOptions = [];
 var validPaths = [];
 
-// var disablePath = [
-//     {
-//         selectedOptions: [4, 5, 2],
-//         blockPathNumber: 1
-//     },
-//     {
-//         selectedOptions: [4, 5, 8],
-//         blockPathNumber: 7
-//     },
-//     {
-//         selectedOptions: [6, 5, 2],
-//         blockPathNumber: 3
-//     },
-//     {
-//         selectedOptions:[6, 5, 8],
-//         blockPathNumber: 9
-//     },
-//     {
-//         selectedOptions: [1, 4, 5],
-//         blockPathNumber: 2
-//     },
-//     {
-//         selectedOptions: [3, 6, 5],
-//         blockPathNumber: 2
-//     },
-//     {
-//         selectedOptions: [1, 2, 5],
-//         blockpathNumber: 4
-//     },
-//     {
-//         selectedOptions: [7, 8, 5],
-//         blockPathNumber: 4
-//     },
-//     {
-//         selectedOptions: [3, 2, 5],
-//         blockPathNumber: 6
-//     },
-//     {
-//         selectedOptions: [9, 8, 5],
-//         blockPathNumber: 6
-//     },
-//     {
-//         selectedOptions: [7, 4, 5],
-//         blockPathNumber: 8
-//     },
-//     {
-//         selectedOptions: [9, 6, 5],
-//         blockPathNumber: 8
-//     }
-// ];
+// const stored = localStorage['pathArray'];
+// if (stored) {
+//     pathArray = JSON.parse(stored);
+// } else {
+//     pathArray = [];
+// }
 
 function showValidOptions(pathIndex) {
-    console.log('show valid Options', pathIndex);
-    let activePaths = availablePathsArray
+    let activePaths = availablePathsArray;
+    let activeDisablePaths = disablePathsArray;
+
+    console.log('activePaths', activePaths);
+    console.log('activeDisablePaths', activeDisablePaths);
+
     const validOptions = Array.from(validPathOptions[pathIndex]).forEach(function (option) {
-        console.log('FOR EACH', option);
+        // console.log('FOR EACH OPTION', option);
         const rest = activePaths.indexOf(parseFloat(option));
+        // validPathOption looks like [clicked element, right, left, bottom, top]
         const pathOption = document.getElementsByClassName('path')[option];
+        console.log('VALID OPTIONS FOR SELECTED', validPathOptions[pathIndex])
 
         if (rest > -1) {
             activePaths.splice(rest, 1);
         }
-        console.log('ACTIVE PATHS', activePaths);
-        console.log('OPTION', option);
-        console.log('ACTIVE PATH ARRAY', activePathArray);
+        // if (labyrinthArray[option - 1].selected && labyrinthArray[option].selected) {
+        //     console.log('IS SELECTED', labyrinthArray[option - 1], labyrinthArray[option]);
+        //     document.getElementsByClassName('path')[validPathOptions[pathIndex][2]].classList.remove('to-use');
+        //     document.getElementsByClassName('path')[validPathOptions[pathIndex][2]].style = '';
+        //     document.getElementsByClassName('path')[validPathOptions[pathIndex][2]].classList.add('disabled');
+        // }
+
+        // console.log('ACTIVE PATHS', activePaths);
+        // console.log('OPTION', option);
+        // console.log('ACTIVE PATH ARRAY', activePathArray);
+
         if (activePathArray[option]) {
             labyrinthArray[pathIndex].selected = true;
             activePathArray[pathIndex] = false;
@@ -84,17 +57,37 @@ function showValidOptions(pathIndex) {
             pathOption.classList.add('to-use');
         }
     });
-    activePaths = Array.from(activePaths);
-    const paths = Array.from(document.getElementsByClassName('path')).forEach(function (item) {
-        activePaths.forEach(function (ap) {
-            if (parseFloat(item.dataset.pathIndex) === ap) {
-                item.style.pointerEvents = 'none';
-                item.classList.remove('to-use');
+
+    const disabledPath = Array.from(disabledPathOptions[pathIndex]).forEach(dis => {
+        // disabledPathOptions = [selected path, bottom-right, bottom-left, top-right, top-left]
+        const rest = activeDisablePaths.indexOf(parseFloat(dis));
+        prev = dis;
+        if (rest > -1) {
+            activeDisablePaths.splice(rest, 1);
+        }
+        if (rest < 0 && !labyrinthArray[pathIndex - 1].selected) {
+            console.log('REST', rest, dis);
+            console.log('OPTION TO DISABLED IS SELECTED', dis);
+            disPathArray[pathIndex] = false;
+            disPathArray[pathIndex - 1] = false;
+            document.getElementsByClassName('path')[pathIndex - 1].classList.remove('to-use');
+            document.getElementsByClassName('path')[pathIndex - 1].style = '';
+            document.getElementsByClassName('path')[pathIndex - 1].classList.add('disabled');
+        }
+        // console.log('VALID PATHS', activePaths);
+    });
+
+    const paths = Array.from(pathArray).forEach(function (item) {
+        const thisItem = document.getElementsByClassName('path')[item];
+        Array.from(activePaths).forEach(function (ap) {
+            if (item === ap) {
+                thisItem.style.pointerEvents = 'none';
+                thisItem.classList.remove('to-use');
             }
         });
-        if (!activePathArray[item.dataset.pathIndex]) {
-            item.style.pointerEvents = 'none';
-            item.classList.remove('to-use');
+        if (!activePathArray[item]) {
+            thisItem.style.pointerEvents = 'none';
+            thisItem.classList.remove('to-use');
         }
     });
 }
@@ -137,9 +130,9 @@ window.onload = function () {
 
     var lastChange = 0;
     var renderPlace = (event) => {
-        event.preventDefault();
+        // event.preventDefault();
 
-        var gridSettingsNumber = parseFloat(document.getElementById('grid-settings').value);
+        var gridSettingsNumber = 5; // parseFloat(document.getElementById('grid-settings').value);
         var roundWalls = gridSettingsNumber + 2;
         var sumOfPaths = roundWalls * roundWalls;
         var place = document.getElementById('creator-place');
@@ -163,102 +156,64 @@ window.onload = function () {
                 fragment.appendChild(path);
             }
             place.appendChild(fragment);
+            // localStorage['pathArray'] = JSON.stringify(pathArray);
 
             place.style.width = placeWidth + 'px';
             renderFinish = true;
         }
         if (renderFinish) {
             let prev = 0;
-            const paths = Array.from(place.querySelectorAll('div'));
+            const paths = Array.from(pathArray);
             const outer = paths.forEach(function (item) {
-                const pathIndex = parseFloat(item.dataset.pathIndex);
-                const isOutside = item.dataset.pathIndex <= roundWalls
-                || item.dataset.pathIndex - prev === roundWalls
-                || item.dataset.pathIndex > sumOfPaths - roundWalls
-                && item.dataset.pathIndex < sumOfPaths + 1;
+                const pathItem = place.getElementsByClassName('path')[item];
+                const pathIndex = parseFloat(pathItem.dataset.pathIndex);
+                const isOutside = pathItem.dataset.pathIndex <= roundWalls
+                || pathItem.dataset.pathIndex - prev === roundWalls
+                || pathItem.dataset.pathIndex > sumOfPaths - roundWalls
+                && pathItem.dataset.pathIndex < sumOfPaths + 1;
 
-                const rightSide = item.dataset.pathIndex - prev === roundWalls - 1;
+                const rightSide = pathItem.dataset.pathIndex - prev === roundWalls - 1;
 
                 if (isOutside) {
-                    prev = item.dataset.pathIndex;
+                    prev = pathItem.dataset.pathIndex;
                 }
                 if (isOutside || rightSide) {
-                    item.classList.add('disabled');
+                    pathItem.classList.add('disabled');
                 }
-
-                if (item.className.indexOf('disabled') < 0) {
+                if (pathItem.className.indexOf('disabled') < 0) {
+                    // validPathOptions = [selected path, right, left, bottom, top]
                     validPathOptions[pathIndex] = [pathIndex ,pathIndex + 1, pathIndex - 1, pathIndex + parseFloat(roundWalls), pathIndex - parseFloat(roundWalls)];
+                    // disabledPathOptions = [selected path, bottom-right, bottom-left, top-right, top-left]
+                    disabledPathOptions[pathIndex] = [pathIndex, pathIndex + parseFloat(roundWalls) + 1, pathIndex + parseFloat(roundWalls) - 1, pathIndex - parseFloat(roundWalls) + 1, pathIndex - parseFloat(roundWalls) - 1];
                     availablePathsArray.push(pathIndex);
+                    disablePathsArray.push(pathIndex);
                     activePathArray[pathIndex] = true;
+                    disPathArray[pathIndex] = true;
                     labyrinthArray.push({
                         active: true,
                         selected: false,
                         pathId: pathIndex,
                     });
                 } else {
+                    activePathArray[pathIndex] = false;
+                    disPathArray[pathIndex] = false;
                     labyrinthArray.push({
                         active: false,
                         selected: false,
                         pathId: pathIndex,
                     });
                 }
-                item.addEventListener('click', event => {
+                pathItem.onclick = function (event) {
                     const elementIndex = pathIndex;
 
                     if (labyrinthArray[elementIndex].active) {
                         buildMaze(event);
                     }
-                }, true);
+                };
             });
-            // for (var indexLeft = 0; indexLeft < pathArray.length; indexLeft = indexLeft + roundWalls) {
-            //     Array.prototype.slice.call(document.getElementsByClassName('path')).map((el, i) => {
-            //         if (i < roundWalls) {
-            //             el.classList.add('disabled');
-            //         }
-            //         if (i === indexLeft) {
-            //             el.classList.add('disabled');
-            //         }
-            //         if (i === indexLeft + roundWalls - 1 + roundWalls) {
-            //             el.classList.add('disabled');
-            //         }
-            //         if (i > roundWalls * (roundWalls - 1)) {
-            //             el.classList.add('disabled');
-            //         }
-            //     });
-            // }
-
-            // Array.prototype.slice.call(document.getElementsByClassName('path')).map((el, i) => {
-            //     if (el.className.indexOf('disabled') < 0) {
-            //         validPathOptions[i] = [i + 1, i - 1, i + parseFloat(roundWalls), i - parseFloat(roundWalls)];
-            //         availablePathsArray.push(i);
-            //         activePathArray[i] = true;
-            //         labyrinthArray.push({
-            //             active: true,
-            //             selected: false,
-            //             pathId: i,
-            //         });
-            //     } else {
-            //         labyrinthArray.push({
-            //             active: false,
-            //             selected: false,
-            //             pathId: i,
-            //         });
-            //     }
-            // });
-            // if (labyrinthArray.length > 0) {
-            //     Array.prototype.slice.call(document.getElementsByClassName('path')).map((el, i) => {
-            //         el.addEventListener('click', event => {
-            //             var element = event.target;
-            //             var elementIndex = element.dataset.pathIndex;
-
-            //             if (labyrinthArray[elementIndex].active) {
-            //                 buildMaze(event);
-            //             }
-            //         }, true);
-            //     });
-            // }
         }
     };
 
-    acceptButton.addEventListener('click', e => renderPlace(e));
+    renderPlace();
+    // acceptButton.addEventListener('click', e => renderPlace(e));
 };

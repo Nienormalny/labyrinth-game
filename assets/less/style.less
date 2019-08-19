@@ -1,6 +1,14 @@
 @import 'colors';
-h1 {
+* {
+  font-family: 'arial';
+}
+h1, h3 {
   text-align: center;
+  margin: 5px 0;
+}
+h3 {
+  color: rgb(93, 93, 93);
+  margin-bottom: 40px;
 }
 #creator-place {
   background-color: @background-color;
@@ -12,6 +20,8 @@ h1 {
     width: 25px;
     height: 25px;
     border: 1px solid #ffc135;
+    text-align: center;
+    line-height: 25px;
     cursor: pointer;
     &:hover {
       background-color: #d0d3f3;
@@ -25,6 +35,7 @@ h1 {
     &.disabled {
       background-color: rgb(51, 51, 51);
       pointer-events: none;
+      color: white;
     }
     &.to-use {
       border: 1px dotted rgb(26, 206, 101);
