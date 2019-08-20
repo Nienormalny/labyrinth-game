@@ -5,11 +5,14 @@ var pathSelected = false;
 
 var pathArray = [];
 let availablePathsArray = [];
+let disablePathsArray = [];
 var activePathArray = [];
+var disPathArray = [];
 var labyrinthArray = [];
 var disableIfSelected = [];
 
 var validPathOptions = [];
+var disabledPathOptions = [];
 var validGridOptions = [];
 var validPaths = [];
 var countSelectedBlocks = 0;
@@ -23,7 +26,9 @@ function showValidOptions(pathIndex) {
 
     const validOptions = Array.from(validPathOptions[pathIndex]).forEach(function (option) {
         const rest = activePaths.indexOf(parseFloat(option));
+        // validPathOption looks like [clicked element, right, left, bottom, top]
         const pathOption = document.getElementsByClassName('path')[option];
+        console.log('VALID OPTIONS FOR SELECTED', validPathOptions[pathIndex])
 
         if (rest > -1) {
             activePaths.splice(rest, 1);
@@ -154,6 +159,7 @@ window.onload = function () {
                 fragment.appendChild(path);
             }
             place.appendChild(fragment);
+            // localStorage['pathArray'] = JSON.stringify(pathArray);
 
             place.style.width = placeWidth + 'px';
             renderFinish = true;
@@ -223,7 +229,9 @@ window.onload = function () {
                         }
                     };
                     availablePathsArray.push(pathIndex);
+                    disablePathsArray.push(pathIndex);
                     activePathArray[pathIndex] = true;
+                    disPathArray[pathIndex] = true;
                     labyrinthArray.push({
                         active: true,
                         selected: false,
