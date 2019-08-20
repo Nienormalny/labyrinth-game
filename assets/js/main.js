@@ -5,14 +5,11 @@ var pathSelected = false;
 
 var pathArray = [];
 let availablePathsArray = [];
-let disablePathsArray = [];
 var activePathArray = [];
-var disPathArray = [];
 var labyrinthArray = [];
 var disableIfSelected = [];
 
 var validPathOptions = [];
-var disabledPathOptions = [];
 var validGridOptions = [];
 var validPaths = [];
 var countSelectedBlocks = 0;
@@ -229,9 +226,7 @@ window.onload = function () {
                         }
                     };
                     availablePathsArray.push(pathIndex);
-                    disablePathsArray.push(pathIndex);
                     activePathArray[pathIndex] = true;
-                    disPathArray[pathIndex] = true;
                     labyrinthArray.push({
                         active: true,
                         selected: false,
