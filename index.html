@@ -6,16 +6,21 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Labirynt Game</title>
-    <link rel="stylesheet" type="text/css" href="./assets/less/style.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
     <script src="./assets/js/main.js"></script>
 </head>
 <body>
-<h1>Labirynt Game</h1>
+<h1>Labyrinth Game</h1>
+<h3>Creat your own labyrinth!</h3>
 <div id="settings-place">
-    <label for="grid-settings">Grid Settings</label>
+    <label for="grid-settings">Number of Paths</label>
     <input id="grid-settings" name="grid-settings" type="number" placeholder="0"/>
     <button id="accept-settings">Accept Settings</button>
 </div>
 <div id="creator-place"></div>
+<div class="apply-block">
+    <button id="apply">Apply Your Labyrinth</button>
+    <h3 class="apply-error"></h3>
+</div>
 </body>
 </html>

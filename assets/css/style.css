@@ -1,0 +1,48 @@
+* {
+  font-family: 'arial';
+}
+h1, h3 {
+  text-align: center;
+  margin: 5px 0;
+}
+h3 {
+  color: rgb(93, 93, 93);
+  margin-bottom: 40px;
+}
+#creator-place {
+  background-color: #e6eaf3;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 15px auto;
+}
+.path {
+  display: block;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #ffc135;
+  text-align: center;
+  line-height: 25px;
+  cursor: pointer;
+}
+.path:hover {
+  background-color: #d0d3f3;
+}
+.path.selected {
+  background-color: rgb(26, 206, 101);
+}
+.path.start-selected {
+  background-color: rgb(255, 44, 44) !important;
+}
+.path.disabled {
+  background-color: rgb(51, 51, 51);
+  pointer-events: none;
+  color: white;
+}
+.path.to-use {
+  border: 1px dotted rgb(26, 206, 101);
+  background-color: rgba(133, 255, 184, 0.401);
+}
+.apply-error {
+  color: rgb(231, 48, 48);
+  display: none;
+}
