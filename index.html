@@ -8,19 +8,33 @@
     <title>Labirynt Game</title>
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
     <script src="./assets/js/main.js"></script>
+    <script src="./assets/js/aframe/aframe.js"></script>
 </head>
 <body>
-<h1>Labyrinth Game</h1>
-<h3>Creat your own labyrinth!</h3>
-<div id="settings-place">
-    <label for="grid-settings">Number of Paths</label>
-    <input id="grid-settings" name="grid-settings" type="number" placeholder="0"/>
-    <button id="accept-settings">Accept Settings</button>
-</div>
-<div id="creator-place"></div>
-<div class="apply-block">
-    <button id="apply">Apply Your Labyrinth</button>
-    <h3 class="apply-error"></h3>
-</div>
+    <h1 style="color: #dd0000;">HOW TO CONVERT THIS TABLE TO 3D GRID?</h1>
+    <div class="editor">
+            <h1>Labyrinth Game</h1>
+            <h3>Creat your own labyrinth!</h3>
+            <div id="settings-place">
+                <label for="grid-settings">Number of Paths</label>
+                <input id="grid-settings" name="grid-settings" type="number" placeholder="0"/>
+                <button id="accept-settings">Accept Settings</button>
+            </div>
+            <div id="creator-place"></div>
+            <div class="apply-block">
+                <button id="apply">Apply Your Labyrinth</button>
+                <h3 class="apply-error"></h3>
+            </div>
+    </div>
+
+    <div class="preview">
+        <a-scene id="test">
+            <!-- <a-entity geometry="primitive: box" position="0 0.5 -4"></a-entity> -->
+            <!-- <a-entity geometry="primitive: box; width: 2; height: 2; depth: 1;" material="shader: flat; color: red;" light="type: point; intensity: 2.0"></a-entity> -->
+            <!-- <a-box position="0 0.5 -4" rotation="0 0 0" color="blue"></a-box>
+            <a-box position="1.1 0.5 -4" rotation="0 0 0" color="blue"></a-box>
+            <a-box position="2.2 0.5 -4" rotation="0 0 0" color="blue"></a-box> -->
+        </a-scene>
+    </div>
 </body>
 </html>
