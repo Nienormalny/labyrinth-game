@@ -11,29 +11,38 @@
     <script src="./assets/js/aframe/aframe.js"></script>
 </head>
 <body>
-    <h1 style="color: #dd0000;">HOW TO CONVERT THIS TABLE TO 3D GRID?</h1>
+    <!-- <h1 class="today"><span style="color: #ffcc3e">Today:</span> Creating camera/character view in 3D/VR</h1> -->
     <div class="editor">
-            <h1>Labyrinth Game</h1>
-            <h3>Creat your own labyrinth!</h3>
-            <div id="settings-place">
-                <label for="grid-settings">Number of Paths</label>
-                <input id="grid-settings" name="grid-settings" type="number" placeholder="0"/>
-                <button id="accept-settings">Accept Settings</button>
+            <div class="heading">
+                <h1>Welcome in Labyrinth Game</h1>
+                <h3>Creat your own labyrinth!</h3>
             </div>
-            <div id="creator-place"></div>
-            <div class="apply-block">
-                <button id="apply">Apply Your Labyrinth</button>
-                <h3 class="apply-error"></h3>
+            <div class="editor-body">
+                <div id="settings-place">
+                    <label for="grid-settings">Set number of columns</label>
+                    <input id="grid-settings" name="grid-settings" type="number" placeholder="0"/>
+                    <button id="accept-settings">Accept Settings</button>
+                </div>
+                <div id="creator-place"></div>
+                <div class="apply-block">
+                    <button id="apply">Lets Go!</button>
+                    <h3 class="apply-error"></h3>
+                </div>
             </div>
     </div>
 
     <div class="preview">
-        <a-scene id="test">
-            <!-- <a-entity geometry="primitive: box" position="0 0.5 -4"></a-entity> -->
-            <!-- <a-entity geometry="primitive: box; width: 2; height: 2; depth: 1;" material="shader: flat; color: red;" light="type: point; intensity: 2.0"></a-entity> -->
-            <!-- <a-box position="0 0.5 -4" rotation="0 0 0" color="blue"></a-box>
-            <a-box position="1.1 0.5 -4" rotation="0 0 0" color="blue"></a-box>
-            <a-box position="2.2 0.5 -4" rotation="0 0 0" color="blue"></a-box> -->
+        <a-scene id="test" background="color: #000;">
+            <a-entity></a-entity>
+            <!-- PLAYER -->
+            <a-entity id="player" light="type: point; color: #7efce9; intensity: 7; decay: 4.5; distance: 5; position: 0 5 0;">
+                <a-entity camera look-controls wasd-controls="enabled: false">
+                    <a-entity id="cursor" position="0 0 -1" geometry="primitive: ring; radiusOuter: 0.016; radiusInner: 0.01;" material="color: #FFF;" cursor="fuseTimeout: 500;fuse: true; maxDistance: 8;">
+                        <a-entity animation__mouseenter="easing: easeInQuad; property: position; from: 1 1 1; startEvents: mouseenter; to: 0 0 0; dur: 500"></a-entity>
+                    </a-entity>
+                </a-entity>
+            </a-entity>
+            <!-- <a-camera position="3.5 5 10"></a-camera> -->
         </a-scene>
     </div>
 </body>

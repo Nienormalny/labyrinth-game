@@ -78,7 +78,6 @@ function showValidOptions(pathIndex) {
             thisItem.classList.remove('to-use');
         }
     });
-    console.log('Last Cicked', lastClicked);
 }
 
 function selectStart(element, index) {
@@ -148,47 +147,97 @@ function generate3DBlocks() {
     var scene = document.getElementById('test');
     var container = document.createDocumentFragment();
     
-    console.log('TEST ARRAY', mapArray);
-    const test = Array.from(mapArray).forEach(function (n, i) {
-        const test2 = Array.from(mapArray).forEach(function (a, b) {
+    const vertical = Array.from(mapArray).forEach(function (n, x) {
+        const horizontal = Array.from(mapArray).forEach(function (a, z) {
             var blockHtml = document.createElement('a-box');
             blockHtml.setAttribute('rotation', "0 0 0");
             blockHtml.setAttribute('color', "blue");
-            blockHtml.setAttribute('position', `${i}.${i} 0.5 -${b}.${b}`);
-            if (finalArray[mapArray[i][b]] === 3) {
-                console.log(finalArray[a]);
+            blockHtml.setAttribute('position', `${x} 0.5 ${z}`);
+            if (finalArray[mapArray[x][z]] === 3) {
                 blockHtml.setAttribute('color', "blue");
+                blockHtml.setAttribute('name', "finish");
+                blockHtml.setAttribute('option', "3");
+                blockHtml.setAttribute('height', "0.1");
+                blockHtml.setAttribute('width', "0.7");
+                blockHtml.setAttribute('depth', "0.7");
+                blockHtml.setAttribute('position', `${x} 0.1 ${z}`);
             }
-            if (finalArray[mapArray[i][b]] === 2) {
-                console.log(finalArray[a]);
+            if (finalArray[mapArray[x][z]] === 2) {
                 blockHtml.setAttribute('color', "red");
+                blockHtml.setAttribute('name', "start");
+                blockHtml.setAttribute('option', "2");
+                blockHtml.setAttribute('height', "0.1");
+                blockHtml.setAttribute('width', "0.7");
+                blockHtml.setAttribute('depth', "0.7");
+                blockHtml.setAttribute('position', `${x} 0.1 ${z}`);
             }
-            if (finalArray[mapArray[i][b]] === 1) {
-                console.log(finalArray[a]);
+            if (finalArray[mapArray[x][z]] === 1) {
                 blockHtml.setAttribute('color', "green");
+                blockHtml.setAttribute('option', "1");
+                blockHtml.setAttribute('height', "0.1");
+                blockHtml.setAttribute('width', "0.7");
+                blockHtml.setAttribute('depth', "0.7");
+                blockHtml.setAttribute('position', `${x} 0.1 ${z}`);
             }
-            if (finalArray[mapArray[i][b]] === 0) {
-                console.log(finalArray[a]);
+            if (finalArray[mapArray[x][z]] === 0) {
                 blockHtml.setAttribute('color', "#333333");
-                
+                blockHtml.setAttribute('height', "6");
             }
             container.appendChild(blockHtml);
-            
-            console.log('X, Z, pathIndex', i, b, mapArray[i][b]);
         });
     });
 
     scene.appendChild(container);
 }
 
+function setPlayerPosition() {
+    var start = document.querySelector('a-box[option="2"]');
+    var player = document.getElementById('player');
+    AFRAME.registerComponent('get-start-position', {
+        init: function () {
+            var position = this.el.object3D.position;
+            player.setAttribute('position', {
+                x: position.x,
+                y: 0.5,
+                z: position.z
+            });
+            player.setAttribute('rotation', "0 180 0");
+        }
+    });
+    start.setAttribute('get-start-position', '');
+}
+
+function movePlayer() {
+    var player = document.getElementById('player');
+    var pathBoxes = document.querySelectorAll('a-box[option="1"]');
+    AFRAME.registerComponent('movement', {
+        init: function () {
+            var lastIndex = -1;
+            var element = this.el;
+            var position = this.el.object3D.position;
+            this.el.addEventListener('click', function (evt) {
+                console.log('WAS CLICKED', position);
+                player.setAttribute('position', {
+                    x: position.x,
+                    y: 0.5,
+                    z: position.z
+                });
+            });
+        }
+    });
+    Array.from(pathBoxes).forEach(function (e, i) {
+        console.log('E, I', e, i);
+        pathBoxes[i].setAttribute('movement', '');
+    });
+}
+
 function saveLabyrinth() {
-    if ((labyrinthArray.length / 3) - 1 <= countSelectedBlocks) {
+    if ((labyrinthArray.length / 3) - 5 <= countSelectedBlocks) {
         var errorMsg = document.getElementsByClassName('apply-error')[0];
         errorMsg.innerHTML = '';
         errorMsg.style = '';
         setRestToDisabled();
         convertBlocks();
-        // TODO: Write function to change rest elements to disabled/not active and convert labyrinthArray to 0, 1, 2, 3 array. 0 is disabled, 1 is path, 2 is start, 3 is finish.
     } else {
         var errorMsg = document.getElementsByClassName('apply-error')[0];
         errorMsg.innerHTML = 'Please select more blocks. <br> <b>Blocks to select:</b> ' + Math.round((labyrinthArray.length / 3) - countSelectedBlocks) + '<br> <b>Selected Blocks: </b>' + countSelectedBlocks;
@@ -196,18 +245,26 @@ function saveLabyrinth() {
     }
     if (renderFinish && startSelected && finishConverting) {
         // TODO: Save converted labyrinthArray to database.
+        var preview3D = document.querySelector('.preview');
+        var editor = document.querySelector('.editor');
+
         createArrayToSave();
         generate3DBlocks();
-        console.log('save');
+        setPlayerPosition();
+        movePlayer();
+        preview3D.classList.remove('hidden');
+        editor.classList.add('hidden');
+        document.getElementById('creator-place').innerHTML = '';
     }
 }
 
 window.onload = function () {
     console.log('Main JS');
     var acceptButton = document.getElementById('accept-settings');
+    var preview3D = document.querySelector('.preview');
+
+    preview3D.classList.add('hidden');
     applyLabyrinth = document.getElementById('apply');
-    // var element = document.querySelector('a-box').object3D;
-    // console.log(element);
     
     document.querySelector('a-entity').setAttribute('test-new', '');
     var lastChange = 0;
@@ -230,13 +287,11 @@ window.onload = function () {
                 pathArray.push(p);
                 const path = document.createElement('div');
                 path.dataset.pathIndex = p;
-                path.textContent = p;
                 path.classList.add('path');
 
                 fragment.appendChild(path);
             }
             place.appendChild(fragment);
-            // localStorage['pathArray'] = JSON.stringify(pathArray);
 
             place.style.width = placeWidth + 'px';
             renderFinish = true;
@@ -334,42 +389,19 @@ window.onload = function () {
                     }
                 };
             });
-            /*
-                EXAMPLE OF ARRAY I NEED TO GENERATE FROM
-                RENDERED LABYRINTH CREATOR:
+            document.getElementById('grid-settings').setAttribute('disabled', true);
+            acceptButton.setAttribute('disabled', true);
 
-                FROM
-
-                [
-                    0, 1, 2, 3, 4, 5, 6,
-                    7, 8, 9, 10, 11, 12, 13,
-                    14, 15, 16, 17, 18, 19, 20,
-                    21, 22, 23, 24, 25, 26, 27,
-                    28, 29, 30, 31, 32, 33, 34,
-                    35, 36, 37, 38, 39, 40, 41,
-                    42, 43, 44, 45, 46, 47, 48
-                ]
-
-                TO
-
-                [
-                    [0,1,2,3,4,5,6],
-                    [7,8,9,10,11,12,13],
-                    [14,15,16,17,18,19,20],
-                    [21,22,23,24,25,26,27],
-                    [28,29,30,31,32,33,34],
-                    [35,36,37,38,39,40,41],
-                    [42,43,44,45,46,47,48],
-                ]
-                
-            */
             mapArray = [...Array(roundWalls).keys()].reduce((prev, curr) => {
                 return [...prev,  pathArray.slice(roundWalls * curr, roundWalls * curr + roundWalls)];
             }, []);
+            document.getElementById('settings-place').classList.add('hidden');
         }
     };
 
     renderPlace();
-    acceptButton.addEventListener('click', e => renderPlace(e));
+    if (!renderFinish) {
+        acceptButton.addEventListener('click', e => renderPlace(e));
+    }
     applyLabyrinth.addEventListener('click', e => saveLabyrinth(e));
 };
