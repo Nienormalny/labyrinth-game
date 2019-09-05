@@ -8,10 +8,11 @@
     <title>Labirynt Game</title>
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
     <script src="./assets/js/main.js"></script>
-    <script src="./assets/js/aframe/aframe.js"></script>
+    <!-- <script src="./assets/js/aframe/aframe.js"></script> -->
+    <script src="https://js13kgames.com/webxr-src/aframe.js"></script>
 </head>
 <body>
-    <!-- <h1 class="today"><span style="color: #ffcc3e">Today:</span> Creating camera/character view in 3D/VR</h1> -->
+    <!-- <h3 class="today"><span style="color: #ffcc3e">Today:</span> Creating timer for hi-score. Would you test this game in vr? http://nienormalny.org/labirynt-game</h3> -->
     <div class="editor">
             <div class="heading">
                 <h1>Welcome in Labyrinth Game</h1>
@@ -26,19 +27,30 @@
                 <div id="creator-place"></div>
                 <div class="apply-block">
                     <button id="apply">Lets Go!</button>
+                    <button id="another-maps">See Others Maps</button>
                     <h3 class="apply-error"></h3>
                 </div>
             </div>
+    </div>
+
+    <div id="loadedMaps">
+        <div class="close-btn">
+            <div class="first-line"></div>
+            <div class="second-line"></div>
+        </div>
     </div>
 
     <div class="preview">
         <a-scene id="test" background="color: #000;">
             <a-entity></a-entity>
             <!-- PLAYER -->
-            <a-entity id="player" light="type: point; color: #7efce9; intensity: 7; decay: 4.5; distance: 5; position: 0 5 0;">
+            <a-entity id="player" light="type: point; color: #7efce9; intensity: 7; decay: 4.5; distance: 5;">
                 <a-entity camera look-controls wasd-controls="enabled: false">
-                    <a-entity id="cursor" position="0 0 -1" geometry="primitive: ring; radiusOuter: 0.016; radiusInner: 0.01;" material="color: #FFF;" cursor="fuseTimeout: 500;fuse: true; maxDistance: 8;">
-                        <a-entity animation__mouseenter="easing: easeInQuad; property: position; from: 1 1 1; startEvents: mouseenter; to: 0 0 0; dur: 500"></a-entity>
+                    <a-entity id="cursor" position="0 0 -0.1" geometry="primitive: ring; radiusOuter: 0.0016; radiusInner: 0.001;" material="color: #FFF;" cursor="fuseTimeout: 500;fuse: true; maxDistance: 8;">
+                        <a-entity animation="easing: easeInQuad; property: scale; from: 1 1 1; startEvents: mouseenter; to: 0 0 0; dur: 500"></a-entity>
+                    </a-entity>
+                    <a-entity  position="0 0.22 -0.3">
+                        <a-text id="timer" value="00:00:00" geometry="primitive: plane; width: 0.05; height: 0.025;" material="color: #8a0c17;" align="center" height="0.2" width="0.2"></a-text>
                     </a-entity>
                 </a-entity>
             </a-entity>

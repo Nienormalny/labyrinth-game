@@ -1,25 +1,49 @@
-var countClick = 0;
-var renderFinish = false;
-var startSelected = false;
-var pathSelected = false;
-var finishConverting = false;
-
-var pathArray = [];
+var countClick = 0,
+    timer,
+    time,
+    hours = 0,
+    minutes = 0,
+    seconds = 0,
+    renderFinish = false,
+    startSelected = false,
+    pathSelected = false,
+    finishConverting = false,
+    pathArray = [];
 let availablePathsArray = [];
-var activePathArray = [];
-var labyrinthArray = [];
-var disableIfSelected = [];
+var activePathArray = [],
+    labyrinthArray = [],
+    disableIfSelected = [],
+    validPathOptions = [],
+    validGridOptions = [],
+    validPaths = [],
+    countSelectedBlocks = 0,
+    finalArray = [],
+    newArr = [],
+    mapArray = [],
+    lastClicked,
+    applyLabyrinth,
+    maps = [],
+    loadMap = JSON.parse(localStorage.getItem('maps'));
 
-var validPathOptions = [];
-var validGridOptions = [];
-var validPaths = [];
-var countSelectedBlocks = 0;
-var finalArray = [];
-var newArr = [];
-var mapArray = [];
-var lastClicked;
-
-var applyLabyrinth;
+function countTime() {
+    var timerValue = document.getElementById('timer');
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes >= 60) {
+            minutes = 0;
+            hours++;
+        }
+    }
+    var fullTime = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+    time = fullTime
+    timerValue.setAttribute('value', fullTime);
+    count();
+}
+function count() {
+    timer = setTimeout(countTime, 1000);
+}
 
 function showValidOptions(pathIndex) {
     let activePaths = availablePathsArray;
@@ -143,10 +167,13 @@ function createArrayToSave() {
     });
 }
 
-function generate3DBlocks() {
+function generate3DBlocks(map, final) {
     var scene = document.getElementById('test');
     var container = document.createDocumentFragment();
-    
+
+    mapArray = typeof map !== 'undefined' ? map : mapArray;
+    finalArray = typeof final !== 'undefined' ? final : finalArray;
+
     const vertical = Array.from(mapArray).forEach(function (n, x) {
         const horizontal = Array.from(mapArray).forEach(function (a, z) {
             var blockHtml = document.createElement('a-box');
@@ -155,7 +182,7 @@ function generate3DBlocks() {
             blockHtml.setAttribute('position', `${x} 0.5 ${z}`);
             if (finalArray[mapArray[x][z]] === 3) {
                 blockHtml.setAttribute('color', "blue");
-                blockHtml.setAttribute('name', "finish");
+                blockHtml.setAttribute('data-name', "finish");
                 blockHtml.setAttribute('option', "3");
                 blockHtml.setAttribute('height', "0.1");
                 blockHtml.setAttribute('width', "0.7");
@@ -164,7 +191,7 @@ function generate3DBlocks() {
             }
             if (finalArray[mapArray[x][z]] === 2) {
                 blockHtml.setAttribute('color', "red");
-                blockHtml.setAttribute('name', "start");
+                blockHtml.setAttribute('data-name', "start");
                 blockHtml.setAttribute('option', "2");
                 blockHtml.setAttribute('height', "0.1");
                 blockHtml.setAttribute('width', "0.7");
@@ -207,16 +234,42 @@ function setPlayerPosition() {
     start.setAttribute('get-start-position', '');
 }
 
-function movePlayer() {
+function getRandomId() {
+    var random = function () {
+        return (((1+Math.random()) * 0x10000)|0).toString(16).substring(1);
+    };
+    return (random()+random()+"-"+random()+"-"+random()+"-"+random()+"-"+random()+random()+random());
+}
+
+function movePlayer(mapId, mapIndex) {
     var player = document.getElementById('player');
-    var pathBoxes = document.querySelectorAll('a-box[option="1"]');
+    var pathBoxes = document.querySelectorAll('a-box[option="1"], a-box[option="3"]');
+    var moveCounter = 0;
     AFRAME.registerComponent('movement', {
         init: function () {
-            var lastIndex = -1;
-            var element = this.el;
             var position = this.el.object3D.position;
+            var els = this.el;
             this.el.addEventListener('click', function (evt) {
-                console.log('WAS CLICKED', position);
+                if (moveCounter === 0) {
+                    moveCounter = 1;
+                    count();
+                }
+                if (evt.target.dataset.name === 'finish') {
+                    clearTimeout(timer);
+                    if (mapId && mapIndex) {
+                        if (loadMap[mapIndex].id === mapId) {
+                            loadMap[mapIndex].time = time;
+                        }
+                    } else {
+                        loadMap.push({
+                            id: getRandomId(),
+                            final: finalArray,
+                            map: mapArray,
+                            time
+                        });
+                    }
+                    localStorage.setItem('maps', JSON.stringify(loadMap));
+                }
                 player.setAttribute('position', {
                     x: position.x,
                     y: 0.5,
@@ -226,49 +279,109 @@ function movePlayer() {
         }
     });
     Array.from(pathBoxes).forEach(function (e, i) {
-        console.log('E, I', e, i);
         pathBoxes[i].setAttribute('movement', '');
     });
 }
 
-function saveLabyrinth() {
-    if ((labyrinthArray.length / 3) - 5 <= countSelectedBlocks) {
-        var errorMsg = document.getElementsByClassName('apply-error')[0];
-        errorMsg.innerHTML = '';
-        errorMsg.style = '';
-        setRestToDisabled();
-        convertBlocks();
+function saveLabyrinth(loadedLab, indexMap) {
+    if (!loadedLab && !indexMap) {
+        if ((labyrinthArray.length / 3) - 5 <= countSelectedBlocks) {
+            var errorMsg = document.getElementsByClassName('apply-error')[0];
+            errorMsg.innerHTML = '';
+            errorMsg.style = '';
+            setRestToDisabled();
+            convertBlocks();
+        } else {
+            var errorMsg = document.getElementsByClassName('apply-error')[0];
+            errorMsg.innerHTML = 'Please select more blocks. <br> <b>Blocks to select:</b> ' + Math.round((labyrinthArray.length / 3) - countSelectedBlocks) + '<br> <b>Selected Blocks: </b>' + countSelectedBlocks;
+            errorMsg.style.display = 'block';
+        }
     } else {
-        var errorMsg = document.getElementsByClassName('apply-error')[0];
-        errorMsg.innerHTML = 'Please select more blocks. <br> <b>Blocks to select:</b> ' + Math.round((labyrinthArray.length / 3) - countSelectedBlocks) + '<br> <b>Selected Blocks: </b>' + countSelectedBlocks;
-        errorMsg.style.display = 'block';
+        finishConverting = true;
+        renderFinish = true;
+        startSelected = true;
     }
     if (renderFinish && startSelected && finishConverting) {
-        // TODO: Save converted labyrinthArray to database.
         var preview3D = document.querySelector('.preview');
         var editor = document.querySelector('.editor');
 
-        createArrayToSave();
-        generate3DBlocks();
-        setPlayerPosition();
-        movePlayer();
+        if (typeof loadedLab !== 'undefined' && indexMap) {
+            generate3DBlocks(loadedLab.map, loadedLab.final);
+            setPlayerPosition();
+            movePlayer(loadedLab.id, indexMap);
+        } else {
+            createArrayToSave();
+            generate3DBlocks();
+            setPlayerPosition();
+            movePlayer();
+        }
+
         preview3D.classList.remove('hidden');
         editor.classList.add('hidden');
+        document.getElementById('loadedMaps').classList.add('hidden');
         document.getElementById('creator-place').innerHTML = '';
     }
+}
+
+function loadPlaces(m) {
+    var container = document.createDocumentFragment();
+    m.forEach(function (mapObject, mapIndex) {
+        var final = mapObject.final,
+            map = mapObject.map,
+            time = mapObject.time,
+            mapBox = document.createElement('div');
+            placeWidth = Math.sqrt(final.length) * (25 + 2);
+
+        mapBox.classList.add('map-preview');
+        mapBox.setAttribute('style', `width: ${placeWidth}px`);
+        mapBox.dataset.index = mapIndex;
+
+        for (var i = 0; i < final.length; i++) {
+            var mapElement = document.createElement('div');
+
+            mapElement.dataset.pathIndex = i;
+            switch (final[i]) {
+                case 0:
+                    mapElement.classList.add('path', 'disabled');
+                    break;
+                case 1:
+                    mapElement.classList.add('path', 'selected');
+                    break;
+                case 2:
+                    mapElement.classList.add('path', 'start-selected');
+                    break;
+                case 3:
+                    mapElement.classList.add('path', 'finish');
+                    break;
+            }
+            mapBox.appendChild(mapElement);
+        }
+        mapBox.innerHTML += `<p class="hi-score">${mapObject.time}</p>`;
+        container.appendChild(mapBox);
+    });
+    document.getElementById('loadedMaps').appendChild(container);
+    Array.from(document.querySelectorAll('.map-preview')).forEach(function (clickedMap) {
+        clickedMap.addEventListener('click', function (e) {
+            saveLabyrinth(loadMap[e.target.dataset.index], e.target.dataset.index);
+        });
+    });
 }
 
 window.onload = function () {
     console.log('Main JS');
     var acceptButton = document.getElementById('accept-settings');
+    var loaded = document.getElementById('loadedMaps');
     var preview3D = document.querySelector('.preview');
+    var loadMaps = this.loadMap;
+    // TODO: load saved maps...
 
     preview3D.classList.add('hidden');
+    loaded.classList.add('hidden');
     applyLabyrinth = document.getElementById('apply');
     
     document.querySelector('a-entity').setAttribute('test-new', '');
     var lastChange = 0;
-    var renderPlace = () => {
+    function renderPlace() {
         var gridSettingsNumber = parseFloat(document.getElementById('grid-settings').value);
         var roundWalls = gridSettingsNumber + 2;
         var sumOfPaths = roundWalls * roundWalls;
@@ -403,5 +516,14 @@ window.onload = function () {
     if (!renderFinish) {
         acceptButton.addEventListener('click', e => renderPlace(e));
     }
-    applyLabyrinth.addEventListener('click', e => saveLabyrinth(e));
+    applyLabyrinth.addEventListener('click', e => saveLabyrinth());
+    document.getElementById('another-maps').addEventListener('click', function (e) {
+        document.getElementById('loadedMaps').classList.remove('hidden');
+    });
+    document.querySelector('.close-btn').addEventListener('click', function (e) {
+        document.getElementById('loadedMaps').classList.add('hidden');
+    });
+    if (loadMaps.length > 0) {
+        this.loadPlaces(loadMaps);
+    }
 };
