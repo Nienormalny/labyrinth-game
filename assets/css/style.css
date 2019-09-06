@@ -45,6 +45,7 @@ h3 {
   position: fixed;
   left: 20px;
   top: 20px;
+  z-index: 20;
   background-color: rgb(253, 41, 41);
   cursor: pointer;
   transition: all 0.3s ease;
@@ -70,6 +71,7 @@ h3 {
 #loadedMaps {
   display: flex;
   align-items: start;
+  align-content: baseline;
   flex-wrap: wrap;
   flex-direction: column;
   z-index: 3;
