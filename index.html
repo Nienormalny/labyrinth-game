@@ -20,6 +20,8 @@
             </div>
             <div class="editor-body">
                 <div id="settings-place">
+                    <label for="creator-name">Creator Name</label>
+                    <input id="creator-name" name="creator-name" type="text" placeholder="Write your name"/>
                     <label for="grid-settings">Set number of columns</label>
                     <input id="grid-settings" name="grid-settings" type="number" placeholder="0"/>
                     <button id="accept-settings">Accept Settings</button>
@@ -38,6 +40,13 @@
             <div class="first-line"></div>
             <div class="second-line"></div>
         </div>
+    </div>
+
+    <div id="hiscore-owner" class="hidden">
+        <h1> Congratulations!</h1>
+        <label for="owner-name">Your Name</label>
+        <input id="owner-name" name="owner-name" placeholder="Write your name"/>
+        <button id="save-owner">Accept</button>
     </div>
 
     <div class="preview">

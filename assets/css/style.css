@@ -26,13 +26,50 @@ h3 {
   flex-wrap: wrap;
   margin: 20px 20px;
   cursor: pointer;
-  background-color: rgb(159, 159, 159);
 }
 .map-preview > div {
   pointer-events: none;
 }
-.hi-score {
+.map-preview > p {
   width: 100%;
+}
+.creator-name {
+  background-color: rgb(30, 187, 111);
+}
+.hiscore-box {
+  background-color: rgb(255, 104, 35);
+  margin-top: 10px;
+  width: 100%;
+}
+.hiscore-box:before {
+  content: 'best score';
+  display: block;
+  padding: 5px;
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  background-color: rgb(240, 61, 16);
+}
+.hiscore-box > p {
+  margin: 0;
+  border-bottom: 1px solid rgb(255, 195, 104);
+}
+.creator-name,
+.hi-score-owner,
+.hi-score,
+.hi-score-date {
+  color: white;
+  padding: 5px;
+  font-size: 12px;
+}
+.creator-name > span,
+.hi-score-owner > span,
+.hi-score > span,
+.hi-score-date > span {
+  font-weight: bold;
+  font-size: 14px;
+}
+.hi-score {
   padding: 5px;
   color: white;
   margin: 0;
@@ -68,6 +105,37 @@ h3 {
   transform: rotate(-45deg);
   transform-origin: 29px 7px;
 }
+#hiscore-owner {
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(64, 64, 64);
+}
+#hiscore-owner > label {
+  color: white;
+}
+#hiscore-owner > input {
+  border-radius: 5px;
+}
+#hiscore-owner > h1 {
+ color: rgb(85, 255, 133);
+ margin-bottom: 15px;
+}
+#hiscore-owner > button {
+  background-color: rgb(14, 126, 246);
+}
+.disabled-btn {
+  background-color: rgb(113, 113, 113);
+}
 #loadedMaps {
   display: flex;
   align-items: start;
@@ -80,6 +148,7 @@ h3 {
   height: 100vh;
   width: 100vw;
   background-color: #e2e2e2;
+  padding-left: 60px;
 }
 #creator-place {
   display: flex;
