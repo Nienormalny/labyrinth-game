@@ -23,16 +23,16 @@ The main thought is to train your memory while you always have that little taste
 - ![#af71db](https://placehold.it/15/af71db/000000?text=+) - option to chose
 
 ### 3. Start the game and enjoy your way!
-![Start game](http://nienormalny.org/labirynt-game/assets/img/Start.png)
-![Gameplay](http://nienormalny.org/labirynt-game/assets/img/gameplay.png)
+![start game](http://nienormalny.org/labirynt-game/assets/img/Start.png)
+![gameplay](http://nienormalny.org/labirynt-game/assets/img/gameplay.png)
 
 **Description:**
 To move forward just look at the next `step`/`block`. (In future I will implement controllers!)
 
 ### 4. Load your created Labyrinths
+![select map](http://nienormalny.org/labirynt-game/assets/img/select-maps.png)
 
-
-![Load created Maps](http://nienormalny.org/labirynt-game/assets/img/loaded-maps.png)
+![load created maps](http://nienormalny.org/labirynt-game/assets/img/loaded-maps.png)
 
 **Description:**
 - On top of the preview, you can see who has created the labyrinth.
