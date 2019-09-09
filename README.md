@@ -46,3 +46,4 @@ To move forward just look at the next `step`/`block`. (In future I will implemen
 - AR for local cooperation with friends
 - Wall tags to mark your orientation (you can lose yourself)
 - Easter eggs! For hungry gamers :-)
+- Run Forest / don't look back
