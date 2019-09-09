@@ -7,19 +7,19 @@ The main thought is to train your memory while you always have that little taste
 
 ## How to play
 
-### 1. Define number of **coulumns** and your name.
+### 1. Define the number of **columns** and type in your name.
 
 ![Creator](http://nienormalny.org/labirynt-game/assets/img/creator.png)
 
-### 2. Create your own Labyrinth
+### 2. Create your own labyrinth
 
 ![Labyrinth editor](http://nienormalny.org/labirynt-game/assets/img/lab-creator.png)
 
 **Legend:**
 - ![#ff2c2c](https://placehold.it/15/ff2c2c/000000?text=+) - define start on first click
 - ![#1ace65](https://placehold.it/15/1ace65/000000?text=+) - define path
-- ![#0e7ef6](https://placehold.it/15/0e7ef6/000000?text=+) - last click describe finish
-- ![#fff784](https://placehold.it/15/fff784/000000?text=+) - possible next way
+- ![#0e7ef6](https://placehold.it/15/0e7ef6/000000?text=+) - last click defines finish
+- ![#fff784](https://placehold.it/15/fff784/000000?text=+) - choosable option
 - ![#af71db](https://placehold.it/15/af71db/000000?text=+) - option to chose
 
 ### 3. Start the game and enjoy your way!
@@ -27,7 +27,7 @@ The main thought is to train your memory while you always have that little taste
 ![Gameplay](http://nienormalny.org/labirynt-game/assets/img/gameplay.png)
 
 **Description:**
-To move forward just look at the next `step`/`block`. (In future i will implement controllers!)
+To move forward just look at the next `step`/`block`. (In future I will implement controllers!)
 
 ### 4. Load your created Labyrinths
 ![Select map](http://nienormalny.org/labirynt-game/assets/img/select-maps.png)
@@ -35,14 +35,14 @@ To move forward just look at the next `step`/`block`. (In future i will implemen
 ![Load created Maps](http://nienormalny.org/labirynt-game/assets/img/loaded-maps.png)
 
 **Description:**
-- At the top of preview, you can see who was create Labyrinth.
-- At the bottom of preview, you can see best scorred person with his/her best time!
+- On top of the preview, you can see who has created the labyrinth.
+- On the bottom of the preview, you can see the best scored player with his/her best time.
 
-# Future plans!
-- Serverside Database (at the moment it is saved in lockalstorage)
+# Future plans:
+- Server side database (at the moment it is saved in local storage)
 - 3D models for controllers and teleport option
 - Wall and ground textures
-- Random generated Labyrinth
+- Random generated labyrinth
 - AR for local cooperation with friends
-- Wall tags to mark your orientation (you can lost yourself)
+- Wall tags to mark your orientation (you can lose yourself)
 - Easter eggs! For hungry gamers :-)
