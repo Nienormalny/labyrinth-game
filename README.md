@@ -1,12 +1,10 @@
 # Labyrinth Game
-Simple game about creating your own Labyrinths.
-This game has no storyline and levels. But its supports VR! So lets get dive into it for better expiriences!
-Game is browserbase game, so you don't need to intall any apps, just run in you browser and that it!
+This is a simple game about creating your own labyrinths. The game has no storyline or levels. But it supports VR. So let’s dive into it for better experiences. The game is browser based, so you don't need to intall any apps. Just run it in your web browser and you're fine.
 
-I tested it with Gear VR (Samsung) so i can tell that Samsung Internet Vr and Oculus Internet Vr works great!
-And make much fun to play own labyrithn in VR world! **You don't need special controllers!**
+I tested it with Gear VR (Samsung) so I can tell that Samsung Internet VR and Oculus Internet VR works perfect. It's much fun to play your own labyrinth in the VR world. **You don't need any special controllers!**
 
-Main think is to train your memory with little taste of competition.
+The main thought is to train your memory while you always have that little taste of competition.
+
 ## How to play
 
 ### 1. Define number of **coulumns** and your name.
