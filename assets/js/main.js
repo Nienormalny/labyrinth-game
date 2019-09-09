@@ -24,6 +24,8 @@ var activePathArray = [],
     mapArray = [],
     lastClicked,
     applyLabyrinth,
+    newCreatedMap,
+    newCreatedMapIndex,
     maps = [],
     loadMap = JSON.parse(localStorage.getItem('maps')) ? JSON.parse(localStorage.getItem('maps')) : [];
 
@@ -188,49 +190,50 @@ function generate3DBlocks(map, final) {
     var scene = document.getElementById('labyrinth-scene');
     var container = document.createDocumentFragment();
 
-    mapArray = typeof map !== 'undefined' ? map.reverse() : mapArray.reverse();
-    finalArray = typeof final !== 'undefined' ? final.reverse() : finalArray.reverse();
+    mapArray = typeof map !== 'undefined' ? map : mapArray;
+    finalArray = typeof final !== 'undefined' ? final : finalArray;
+    var reversedMap = mapArray.reverse();
+    var reversedFinal = finalArray.reverse();
 
-    const vertical = Array.from(mapArray).forEach(function (n, x) {
-        const horizontal = Array.from(mapArray).forEach(function (a, z) {
+    const vertical = Array.from(reversedMap).forEach(function (n, x) {
+        const horizontal = Array.from(reversedMap).forEach(function (a, z) {
             var blockHtml = document.createElement('a-box');
             blockHtml.setAttribute('rotation', "0 0 0");
             blockHtml.setAttribute('color', "blue");
             blockHtml.setAttribute('position', `${x} 0.5 ${z}`);
-            if (finalArray[mapArray[x][z]] === 3) {
+            if (reversedFinal[reversedMap[x][z]] === 3) {
                 blockHtml.setAttribute('color', "blue");
                 blockHtml.setAttribute('data-name', "finish");
                 blockHtml.setAttribute('option', "3");
                 blockHtml.setAttribute('height', "0.1");
-                blockHtml.setAttribute('width', "0.7");
-                blockHtml.setAttribute('depth', "0.7");
+                blockHtml.setAttribute('width', "0.90");
+                blockHtml.setAttribute('depth', "0.90");
                 blockHtml.setAttribute('position', `${x} 0.1 ${z}`);
             }
-            if (finalArray[mapArray[x][z]] === 2) {
+            if (reversedFinal[reversedMap[x][z]] === 2) {
                 blockHtml.setAttribute('color', "red");
                 blockHtml.setAttribute('data-name', "start");
                 blockHtml.setAttribute('option', "2");
                 blockHtml.setAttribute('height', "0.1");
-                blockHtml.setAttribute('width', "0.7");
-                blockHtml.setAttribute('depth', "0.7");
+                blockHtml.setAttribute('width', "0.90");
+                blockHtml.setAttribute('depth', "0.90");
                 blockHtml.setAttribute('position', `${x} 0.1 ${z}`);
             }
-            if (finalArray[mapArray[x][z]] === 1) {
+            if (reversedFinal[reversedMap[x][z]] === 1) {
                 blockHtml.setAttribute('color', "green");
                 blockHtml.setAttribute('option', "1");
                 blockHtml.setAttribute('height', "0.1");
-                blockHtml.setAttribute('width', "0.7");
-                blockHtml.setAttribute('depth', "0.7");
+                blockHtml.setAttribute('width', "0.90");
+                blockHtml.setAttribute('depth', "0.90");
                 blockHtml.setAttribute('position', `${x} 0.1 ${z}`);
             }
-            if (finalArray[mapArray[x][z]] === 0) {
+            if (reversedFinal[reversedMap[x][z]] === 0) {
                 blockHtml.setAttribute('color', "#333333");
                 blockHtml.setAttribute('height', "5");
             }
             container.appendChild(blockHtml);
         });
     });
-
     scene.appendChild(container);
 }
 function setPlayerPosition() {
@@ -274,35 +277,39 @@ function saveBestTimeOwner(map, index) {
         saveButton = document.getElementById('save-owner'),
         ownerName = document.getElementById('owner-name');
 
-    ownerPanel.classList.remove('hidden');
     document.querySelector('a-scene').exitVR();
+    var randomId = getRandomId();
 
-    if (map && index) {
+    console.log(map && typeof index === 'number',  map && typeof index === 'string');
+    if (map && typeof index === 'number' || map && typeof index === 'string') {
         if (loadMap[index].id === map) {
-            console.log('MAP', loadMap[index]);
             if (getSeconds(loadMap[index].time) > getSeconds(time) || getSeconds(loadMap[index].time) === 0 || Number.isNaN(getSeconds(loadMap[index].time))) {
-                loadMap[index].time = time;
-                ownerName.addEventListener('change', function (i) {
-                    if (i.target.value !== '') {
-                        saveButton.classList.remove('disabled-btn');
-                        saveButton.addEventListener('click', function () {
-                            ownerSaved = true;
-                            loadMap[index].time.owner = {
-                                id: getRandomId(),
-                                name: ownerName.value,
-                                date: new Date().getDateString()
-                            };
-                            localStorage.setItem('maps', JSON.stringify(loadMap));
-                            resetStats();
-                        });
-                    } else {
-                        saveButton.classList.add('disabled-btn');
+                console.log('MAP 2', map, index);
+                ownerPanel.classList.remove('hidden');
+                saveButton.addEventListener('click', function () {
+                    console.log('MAP 3', map, index);
+                    if (newCreatedMap && newCreatedMapIndex !== '') {
+                        map = newCreatedMap.id;
+                        index = newCreatedMapIndex;
                     }
-                })
+                    if (ownerName.value !== '') {
+                        ownerSaved = true;
+
+                        loadMap[index].time = time;
+                        loadMap[index].time.owner.id = randomId;
+                        loadMap[index].time.owner.name = ownerName.value;
+                        loadMap[index].time.owner.date = new Date().getDateString();
+
+                        localStorage.setItem('maps', JSON.stringify(loadMap));
+                        console.log('after save', loadMap);
+                        resetStats();
+                    }
+                });
+            } else {
+                resetStats();
             }
         }
     }
-
 }
 
 function resetStats() {
@@ -311,6 +318,7 @@ function resetStats() {
 
     document.querySelector('.preview').classList.add('hidden');
     document.querySelector('.editor').classList.remove('hidden');
+    document.querySelector('.editor').classList.remove('blury');
     document.getElementById('loadedMaps').classList.remove('hidden');
     document.getElementById('grid-settings').value = '';
     document.getElementById('owner-name').value = '';
@@ -345,6 +353,8 @@ function resetStats() {
     newArr = [];
     mapArray = [];
     maps = [];
+    newCreatedMap = undefined;
+    newCreatedMapIndex = '';
     Array.from(scene.children).forEach(function (el) {
         if (typeof el !== 'undefined') {
             if (el.tagName !== 'CANVAS' && !el.classList.contains('a-loader-title') && !el.classList.contains('a-enter-vr') && !el.classList.contains('a-orientation-modal') && el.tagName !== "A-ENTITY") {
@@ -359,6 +369,7 @@ function resetStats() {
             }
         }
     });
+    loadMap = JSON.parse(localStorage.getItem('maps')) ? JSON.parse(localStorage.getItem('maps')) : [];
     document.getElementById('creator-name').value = '';
     loadPlaces(loadMap);
 }
@@ -366,6 +377,9 @@ function resetStats() {
 function movePlayer(mapId, mapIndex) {
     var player = document.getElementById('player');
     var pathBoxes = document.querySelectorAll('a-box[option="1"], a-box[option="3"]');
+
+    console.log('new created map', newCreatedMap);
+    console.log('old data', mapId, mapIndex);
 
     if (!AFRAME.components['movement']) {
         AFRAME.registerComponent('movement', {
@@ -379,7 +393,14 @@ function movePlayer(mapId, mapIndex) {
                     }
                     if (evt.target.dataset.name === 'finish') {
                         clearTimeout(timer);
-                        saveBestTimeOwner(mapId, mapIndex);
+
+                        if (newCreatedMapIndex) {
+                            console.log('NEW DATA', newCreatedMap.id, newCreatedMapIndex);
+                            saveBestTimeOwner(newCreatedMap.id, newCreatedMapIndex);
+                        } else {
+                            console.log('OLD DATA', mapId, mapIndex);
+                            saveBestTimeOwner(mapId, mapIndex);
+                        }
                     }
                     player.setAttribute('position', {
                         x: position.x,
@@ -421,13 +442,14 @@ function saveLabyrinth(loadedLab, indexMap) {
         if (typeof loadedLab !== 'undefined' && indexMap) {
             generate3DBlocks(loadedLab.map, loadedLab.final);
             setPlayerPosition();
+            console.log(loadedLab.id, indexMap);
             movePlayer(loadedLab.id, indexMap);
         } else {
-            var mapId = getRandomId();
+            newMapId = getRandomId();
 
             createArrayToSave();
             loadMap.push({
-                id: mapId,
+                id: getRandomId(),
                 creator: {
                     id: getRandomId(),
                     name: document.getElementById('creator-name').value,
@@ -437,10 +459,15 @@ function saveLabyrinth(loadedLab, indexMap) {
                 map: mapArray,
                 time
             });
+
+            newCreatedMap = loadMap[loadMap.length - 1];
+            newCreatedMapIndex = loadMap.length - 1;
+
             localStorage.setItem('maps', JSON.stringify(loadMap));
-            generate3DBlocks();
+
+            generate3DBlocks(loadMap[Object.keys(loadMap).length - 1].map, loadMap[Object.keys(loadMap).length - 1].final);
             setPlayerPosition();
-            movePlayer(mapId, Object.keys(loadMap)[Object.keys(loadMap).length - 1]);
+            movePlayer(loadMap[loadMap.length - 1].id, loadMap.length - 1);
         }
 
         preview3D.classList.remove('hidden');
@@ -461,10 +488,10 @@ function loadPlaces(m) {
         var final = mapObject.final,
             mapBox = document.createElement('div'),
             creatorDiv = document.createElement('p'),
-            placeWidth = Math.sqrt(final.length) * (25 + 2);
+            placeWidth = Math.sqrt(final.length) * (25 + 2) + 20;
 
         mapBox.classList.add('map-preview');
-        mapBox.setAttribute('style', `width: ${placeWidth}px`);
+        mapBox.setAttribute('style', `min-width: ${placeWidth}px; width: ${placeWidth}px`);
         mapBox.dataset.index = mapIndex;
 
         for (var i = 0; i < final.length; i++) {
@@ -487,7 +514,7 @@ function loadPlaces(m) {
             }
             mapBox.appendChild(mapElement);
         }
-        var creatorName = mapObject.creator.name;
+        var creatorName = typeof mapObject.creator !== 'undefined' ? mapObject.creator.name : 'NotDefined';
         var validName = typeof mapObject.time !== 'undefined' && typeof mapObject.time.owner !== 'undefined' && typeof mapObject.time.owner.name !== 'undefined' ? mapObject.time.owner.name : 'Not played yet';
         var validTime = typeof mapObject.time !== 'undefined' ? mapObject.time.stringTime : '00:00:00';
         var validDate = typeof mapObject.time !== 'undefined' && typeof mapObject.time.owner !== 'undefined' && typeof mapObject.time.owner.date !== 'undefined' ? mapObject.time.owner.date : '-';
@@ -665,9 +692,11 @@ window.onload = function () {
     applyLabyrinth.addEventListener('click', e => saveLabyrinth());
     document.getElementById('another-maps').addEventListener('click', function (e) {
         document.getElementById('loadedMaps').classList.remove('hidden');
+        document.querySelector('.editor').classList.add('blury');
     });
     document.querySelector('.close-btn').addEventListener('click', function (e) {
         document.getElementById('loadedMaps').classList.add('hidden');
+        document.querySelector('.editor').classList.remove('blury');
     });
     if (loadMaps.length > 0) {
         this.loadPlaces(loadMaps);
