@@ -1,31 +1,55 @@
+/* === ANIMATION === */
+@keyframes backgroundRotation {
+  from {
+    transform: scale3d(3,3,1) rotateZ(0deg);
+  }
+  to {
+    transform: scale3D(3,3,1) rotateZ(360deg);
+  }
+}
 * {
   font-family: 'arial';
 }
+body:after {
+  content: '';
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  background: rgb(11, 28, 35);
+  background: linear-gradient(to right, rgb(103, 185, 220), rgb(41, 78, 91), rgb(11, 28, 35)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  animation-duration: 10s;
+  animation-name: backgroundRotation;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
 .heading {
-  position: fixed;
-  background-color: white;
-  left: 0;
-  right: 0;
-  z-index: 2;
+  color: white;
+  margin-top: 15px;
 }
 h1, h3 {
   text-align: center;
   margin: 0;
 }
 h3 {
-  color: rgb(93, 93, 93);
+  color: rgb(253, 253, 253);
   margin-bottom: 20px;
 }
 .editor-body {
-  padding-top: 15px;
   overflow: auto;
-  height: calc(100vh - 75px);
+  height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+    align-items: center;
 }
 .map-preview {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   margin: 20px 20px;
   cursor: pointer;
+  box-shadow: 2px 2px 10px -1px rgba(0, 0, 0, 0.306);
+  background-color: white;
 }
 .map-preview > div {
   pointer-events: none;
@@ -34,10 +58,12 @@ h3 {
   width: 100%;
 }
 .creator-name {
-  background-color: rgb(30, 187, 111);
+  background-color: #1ace65;
+  margin-top: 0;
+  width: 100%;
 }
 .hiscore-box {
-  background-color: rgb(255, 104, 35);
+  background-color: #0e7ef6;
   margin-top: 10px;
   width: 100%;
 }
@@ -47,8 +73,7 @@ h3 {
   padding: 5px;
   color: white;
   text-align: center;
-  text-transform: uppercase;
-  background-color: rgb(240, 61, 16);
+  background-color: #ff2c2c;
 }
 .hiscore-box > p {
   margin: 0;
@@ -61,6 +86,9 @@ h3 {
   color: white;
   padding: 5px;
   font-size: 12px;
+}
+.hi-score-date {
+  border-bottom: 0 !important;
 }
 .creator-name > span,
 .hi-score-owner > span,
@@ -118,10 +146,12 @@ h3 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgb(64, 64, 64);
+  background-color: rgba(0, 0, 0, 0.299);
 }
 #hiscore-owner > label {
   color: white;
+  font-size: 14px;
+  letter-spacing: 1px;
 }
 #hiscore-owner > input {
   border-radius: 5px;
@@ -137,31 +167,58 @@ h3 {
   background-color: rgb(113, 113, 113);
 }
 #loadedMaps {
-  display: flex;
+  display: flex !important;
   align-items: start;
   align-content: baseline;
   flex-wrap: wrap;
-  flex-direction: column;
   z-index: 3;
   position: fixed;
   overflow-y: auto;
   height: 100vh;
   width: 100vw;
-  background-color: #e2e2e2;
+  background-color: rgba(226, 226, 226, 0.592);
   padding-left: 60px;
+  transition: all 1s cubic-bezier(.4,.23,.54,.74);
+  bottom: 0;
+  opacity: 1;
+}
+#loadedMaps.hidden {
+  display: flex !important;
+  bottom: 100vh;
+  opacity: 0;
+}
+#loadedMaps .close-btn {
+  transition: all 2s ease;
+  opacity: 1;
+}
+#loadedMaps.hidden .close-btn {
+  top: -100px;
+  opacity: 0;
 }
 #creator-place {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 auto;
-  padding: 60px 20px 10px 20px;
-  padding-top: 60px;
+  background-color: rgb(255, 255, 255);
+  padding: 20px;
+  box-shadow: 2px 2px 10px -1px rgba(0, 0, 0, 0.306);
+  border-radius: 10px;
 }
 #settings-place {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 75px;
+  background-color: rgba(255, 255, 255, 0.313);
+  padding: 25px;
+  width: 200px;
+  box-shadow: 2px 2px 10px -1px rgba(0, 0, 0, 0.306);
+}
+#settings-place label {
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: white;
+}
+#settings-place:not(.hidden) + #creator-place {
+  display: none;
 }
 .today {
   margin: 0;
@@ -183,6 +240,11 @@ body .a-enter-vr {
   right: 0;
   z-index: 2;
   overflow: auto;
+  transition: filter 1s ease;
+  height: 100vh;
+}
+.blury {
+  filter: blur(5px);
 }
 .path {
   background-color: #af71db;
@@ -195,7 +257,7 @@ body .a-enter-vr {
   cursor: pointer;
   transform: scale(0.7);
   box-shadow: 2px 2px 6px -1px #3333338c;
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
   border-radius: 10%;
 }
 .path:hover {
@@ -203,12 +265,12 @@ body .a-enter-vr {
   transform: scale(0.9);
 }
 .path.selected {
-  background-color: rgb(26, 206, 101);
+  background-color: #1ace65;
   transform: scale(0.9);
   box-shadow: 2px 4px 7px -2px #33333357;
 }
 .path.start-selected {
-  background-color: rgb(255, 44, 44) !important;
+  background-color: #ff2c2c !important;
   transform: scale(0.9);
   box-shadow: 2px 4px 7px -2px #33333357;
 }
@@ -218,10 +280,10 @@ body .a-enter-vr {
   color: white;
 }
 .path.to-use {
-  background-color: rgb(255, 247, 132);
+  background-color: #fff784;
 }
 .path.finish {
-  background-color: rgb(14, 126, 246);
+  background-color: #0e7ef6;
   pointer-events: none;
   color: white;
 }
@@ -230,10 +292,11 @@ body .a-enter-vr {
   background-color: rgb(221, 51, 51);
   display: none;
   position: fixed;
-  top: 10px;
-  right: 10px;
+  bottom: 0;
+  right: 0;
   font-size: 12px;
   padding: 10px;
+  margin: 0;
 }
 button {
   border: 0;
@@ -242,6 +305,7 @@ button {
   color: white;
   cursor: pointer;
   outline: none;
+  border-radius: 5px;
 }
 label,
 input {
@@ -293,5 +357,23 @@ input {
   h3 {
     font-size: 14px;
     margin-top: 0px;
+  }
+}
+@media (max-width: 768px) {
+  #loadedMaps {
+    display: block;
+    padding-left: 0;
+    padding-top: 70px;
+    height: calc(100% - 60px);
+  }
+  #loadedMaps > div {
+    margin: auto;
+  }
+  #loadedMaps .map-preview {
+    margin-bottom: 20px;
+    box-shadow: 0px 3px 7px -4px #727272;
+  }
+  #loadedMaps .map-preview p {
+    text-align: center;
   }
 }
