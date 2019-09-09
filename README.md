@@ -23,7 +23,7 @@ The main thought is to train your memory while you always have that little taste
 - ![#af71db](https://placehold.it/15/af71db/000000?text=+) - option to chose
 
 ### 3. Start the game and enjoy your way!
-![Start game](http://nienormalny.org/labirynt-game/assets/img/Start.png)
+
 ![Gameplay](http://nienormalny.org/labirynt-game/assets/img/gameplay.png)
 
 **Description:**
