@@ -10,9 +10,9 @@ var countClick = 0,
     pathSelected = false,
     finishConverting = false,
     ownerSaved = false,
-    pathArray = [];
-let availablePathsArray = [];
-var activePathArray = [],
+    pathArray = [],
+    availablePathsArray = [],
+    activePathArray = [],
     labyrinthArray = [],
     disableIfSelected = [],
     validPathOptions = [],
@@ -29,15 +29,62 @@ var activePathArray = [],
     maps = [],
     loadMap = JSON.parse(localStorage.getItem('maps')) ? JSON.parse(localStorage.getItem('maps')) : [];
 
+/* === Usefull functions === */
 Date.prototype.getDateString = function () {
-    var dd = this.getDate();
-    var mm = this.getMonth() + 1;
-    var yyyy = this.getFullYear();
-    var fullDate = (dd > 9 ? '' : '0') + dd + '.' + (mm > 9 ? '' : '0') + mm + '.' + yyyy
+    var dd = this.getDate(),
+        mm = this.getMonth() + 1,
+        yyyy = this.getFullYear(),
+        fullDate = (dd > 9 ? '' : '0') + dd + '.' + (mm > 9 ? '' : '0') + mm + '.' + yyyy
 
     return fullDate;
 }
+function getRandomId() {
+    var random = function () {
+        return (((1+Math.random()) * 0x10000)|0).toString(16).substring(1);
+    };
+    return (random()+random()+"-"+random()+"-"+random()+"-"+random()+"-"+random()+random()+random());
+}
+function getSeconds(timeObject) {
+    if (typeof timeObject === 'undefined') {
+       return 0;
+    }
+    return ((timeObject.hours * 60) * 60) + (timeObject.minutes * 60) + timeObject.seconds
+}
+function getCloseButton(targetModal) {
+    var fragment = document.createDocumentFragment(),
+        closeBtnTemplate = document.createElement('div'),
+        firstLine = document.createElement('div'),
+        secondLine = document.createElement('div');
 
+    firstLine.classList.add('first-line');
+    secondLine.classList.add('second-line');
+    closeBtnTemplate.classList.add('close-btn');
+    closeBtnTemplate.appendChild(firstLine);
+    closeBtnTemplate.appendChild(secondLine);
+    fragment.appendChild(closeBtnTemplate);
+
+    closeBtnTemplate.addEventListener('click', function () {
+        targetModal.classList.add('hidden');
+        targetModal.removeChild(closeBtnTemplate);
+        document.querySelector('.editor').classList.remove('blury');
+    });
+
+    return fragment;
+}
+function modalFunction(modalElements) {
+    for (element in modalElements) {
+        modalElements[element].addEventListener('click', function (e) {
+            var el = e.target,
+                target = document.getElementById(el.dataset.target);
+
+            target.classList.remove('hidden');
+            target.prepend(getCloseButton(target));
+            document.querySelector('.editor').classList.add('blury');
+        });
+    }
+}
+
+/* === Timer === */
 function countTime() {
     var timerValue = document.getElementById('timer');
     seconds++;
@@ -63,16 +110,16 @@ function countTime() {
 function count() {
     timer = setTimeout(countTime, 1000);
 }
-
+/* === Show valid options after selecting path === */
 function showValidOptions(pathIndex) {
-    let activePaths = availablePathsArray;
+    var activePaths = availablePathsArray;
     
     countSelectedBlocks = countSelectedBlocks + 1;
 
-    const validOptions = Array.from(validPathOptions[pathIndex]).forEach(function (option) {
-        const rest = activePaths.indexOf(parseFloat(option));
+    var validOptions = Array.from(validPathOptions[pathIndex]).forEach(function (option) {
+        var rest = activePaths.indexOf(parseFloat(option));
         // validPathOption looks like [clicked element, right, left, bottom, top]
-        const pathOption = document.getElementsByClassName('path')[option];
+        var pathOption = document.getElementsByClassName('path')[option];
         lastClicked = pathIndex;
 
         if (rest > -1) {
@@ -87,13 +134,12 @@ function showValidOptions(pathIndex) {
             pathOption.classList.add('to-use');
         }
     });
-
-    const disableBlock = Object.keys(disableIfSelected[pathIndex]).map(function (position) {
-        const disOption = disableIfSelected[pathIndex][position];
-        const pathElement = document.getElementsByClassName('path')[disOption.disable];
-
-        let countDisabled = 0;
-        const checkSelected = Array.from(disOption.options).forEach(function (opt) {
+    /* === Disable block - create wall === */
+    var disableBlock = Object.keys(disableIfSelected[pathIndex]).map(function (position) {
+        var disOption = disableIfSelected[pathIndex][position],
+            pathElement = document.getElementsByClassName('path')[disOption.disable],
+            countDisabled = 0,
+            checkSelected = Array.from(disOption.options).forEach(function (opt) {
             if (labyrinthArray[opt].selected) {
                 countDisabled = countDisabled + 1;
                 if (disOption.options.length === countDisabled) {
@@ -107,9 +153,9 @@ function showValidOptions(pathIndex) {
             }
         });
     });
-
-    const paths = Array.from(pathArray).forEach(function (item) {
-        const thisItem = document.getElementsByClassName('path')[item];
+    /* === Show selected paths / adding class to selected === */
+    var paths = Array.from(pathArray).forEach(function (item) {
+        var thisItem = document.getElementsByClassName('path')[item];
         Array.from(activePaths).forEach(function (ap) {
             if (item === ap) {
                 thisItem.style.pointerEvents = 'none';
@@ -122,7 +168,7 @@ function showValidOptions(pathIndex) {
         }
     });
 }
-
+/* === Selecting start function === */
 function selectStart(element, index) {
     if (renderFinish) {
         countClick = 1;
@@ -132,17 +178,17 @@ function selectStart(element, index) {
         showValidOptions(index);
     }
 }
-
+/* === Selecting path function === */
 function selectPath(element, index) {
     if (startSelected && renderFinish && labyrinthArray.length !== 0) {
         element.classList.add('selected');
         showValidOptions(index);
     }
 }
-
-function buildMaze(event) {
-    var element = event.target;
-    var pathId = parseFloat(element.dataset.pathIndex);
+/* === Labyrinth creator function - based on click counting (recognize which is start, witch is path) === */
+function selectLabyrinthPath(event) {
+    var element = event.target,
+        pathId = parseFloat(element.dataset.pathIndex);
 
     switch (countClick) {
         case 0:
@@ -155,10 +201,10 @@ function buildMaze(event) {
             return false;
     }
 }
-
+/* === Setting rest nonechoosed options to disabled (Walls) === */
 function setRestToDisabled() {
-    const disableBlock = Object.keys(labyrinthArray).map(function (block) {
-        const pathElement = document.getElementsByClassName('path')[block];
+    var disableBlock = Object.keys(labyrinthArray).map(function (block) {
+        var pathElement = document.getElementsByClassName('path')[block];
         if (!labyrinthArray[block].selected) {
             labyrinthArray[block].active = false;
             pathElement.classList.remove('to-use');
@@ -167,41 +213,51 @@ function setRestToDisabled() {
         }
     });
 }
-
+/* Update labyrinth array and set choosen path option to 1 (selected green path):
+    labyrinthArray = [
+        0: {active: false, selected: false, pathId: 0, option: 0}
+    ]
+*/
 function convertBlocks() {
     labyrinthArray[lastClicked].option = 3;
     document.getElementsByClassName('path')[lastClicked].classList.remove('to-use');
     document.getElementsByClassName('path')[lastClicked].classList.add('finish');
-    const convert = Object.keys(labyrinthArray).map(function (path) {
+    var convert = Object.keys(labyrinthArray).map(function (path) {
         if (labyrinthArray[path].active && labyrinthArray[path].selected && labyrinthArray[path].option === 0) {
             labyrinthArray[path].option = 1;
         }
     });
     finishConverting = true;
 }
-
+/* Create final array to save - will be used to generate 3D blocks:
+    finalArray = [0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 2, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+    0 - define wall
+    1 - define path
+    2 - define start
+    3 - define finish
+*/
 function createArrayToSave() {
     Object.keys(labyrinthArray).map(function (path) {
         finalArray.push(parseFloat(labyrinthArray[path].option));
     });
 }
-
+/* === Render 2D view (finalArray and map array) to 3D blocks === */
 function generate3DBlocks(map, final) {
     var scene = document.getElementById('labyrinth-scene');
     var container = document.createDocumentFragment();
 
     mapArray = typeof map !== 'undefined' ? map : mapArray;
     finalArray = typeof final !== 'undefined' ? final : finalArray;
-    var reversedMap = mapArray.reverse();
-    var reversedFinal = finalArray.reverse();
 
-    const vertical = Array.from(reversedMap).forEach(function (n, x) {
-        const horizontal = Array.from(reversedMap).forEach(function (a, z) {
+    var vertical = Array.from(mapArray).forEach(function (n, x) {
+        var horizontal = Array.from(mapArray).forEach(function (a, z) {
             var blockHtml = document.createElement('a-box');
             blockHtml.setAttribute('rotation', "0 0 0");
-            blockHtml.setAttribute('color', "blue");
+            blockHtml.setAttribute('color', "#0e7ef6");
             blockHtml.setAttribute('position', `${x} 0.5 ${z}`);
-            if (reversedFinal[reversedMap[x][z]] === 3) {
+            blockHtml.setAttribute('shadow', `cast:true; receive:true; type: pcfsoft;`);
+            /* Render finish block (blue) */
+            if (finalArray[mapArray[x][z]] === 3) {
                 blockHtml.setAttribute('color', "blue");
                 blockHtml.setAttribute('data-name', "finish");
                 blockHtml.setAttribute('option', "3");
@@ -210,8 +266,9 @@ function generate3DBlocks(map, final) {
                 blockHtml.setAttribute('depth', "0.90");
                 blockHtml.setAttribute('position', `${x} 0.1 ${z}`);
             }
-            if (reversedFinal[reversedMap[x][z]] === 2) {
-                blockHtml.setAttribute('color', "red");
+            /* Render start block (red) */
+            if (finalArray[mapArray[x][z]] === 2) {
+                blockHtml.setAttribute('color', "#ff2c2c");
                 blockHtml.setAttribute('data-name', "start");
                 blockHtml.setAttribute('option', "2");
                 blockHtml.setAttribute('height', "0.1");
@@ -219,23 +276,29 @@ function generate3DBlocks(map, final) {
                 blockHtml.setAttribute('depth', "0.90");
                 blockHtml.setAttribute('position', `${x} 0.1 ${z}`);
             }
-            if (reversedFinal[reversedMap[x][z]] === 1) {
-                blockHtml.setAttribute('color', "green");
+            /* Render path block (green) */
+            if (finalArray[mapArray[x][z]] === 1) {
+                blockHtml.setAttribute('color', "#1ace65");
+                blockHtml.setAttribute('data-name', "path");
                 blockHtml.setAttribute('option', "1");
                 blockHtml.setAttribute('height', "0.1");
                 blockHtml.setAttribute('width', "0.90");
                 blockHtml.setAttribute('depth', "0.90");
                 blockHtml.setAttribute('position', `${x} 0.1 ${z}`);
             }
-            if (reversedFinal[reversedMap[x][z]] === 0) {
+            /* Render wall block (0) */
+            if (finalArray[mapArray[x][z]] === 0) {
                 blockHtml.setAttribute('color', "#333333");
-                blockHtml.setAttribute('height', "5");
+                blockHtml.setAttribute('data-name', "wall");
+                blockHtml.setAttribute('option', "0");
+                blockHtml.setAttribute('height', "3");
             }
             container.appendChild(blockHtml);
         });
     });
     scene.appendChild(container);
 }
+/* === Setting player position === */
 function setPlayerPosition() {
     var start = document.querySelector('a-box[option="2"]');
     var player = document.getElementById('player');
@@ -257,21 +320,7 @@ function setPlayerPosition() {
     
     start.setAttribute('get-start-position', '');
 }
-
-function getRandomId() {
-    var random = function () {
-        return (((1+Math.random()) * 0x10000)|0).toString(16).substring(1);
-    };
-    return (random()+random()+"-"+random()+"-"+random()+"-"+random()+"-"+random()+random()+random());
-}
-
-function getSeconds(timeObject) {
-    if (typeof timeObject === 'undefined') {
-       return 0;
-    }
-    return ((timeObject.hours * 60) * 60) + (timeObject.minutes * 60) + timeObject.seconds
-}
-
+/* === Logic for saving best time / hiscore and his owner === */
 function saveBestTimeOwner(map, index) {
     var ownerPanel = document.getElementById('hiscore-owner'),
         saveButton = document.getElementById('save-owner'),
@@ -280,14 +329,11 @@ function saveBestTimeOwner(map, index) {
     document.querySelector('a-scene').exitVR();
     var randomId = getRandomId();
 
-    console.log(map && typeof index === 'number',  map && typeof index === 'string');
     if (map && typeof index === 'number' || map && typeof index === 'string') {
         if (loadMap[index].id === map) {
             if (getSeconds(loadMap[index].time) > getSeconds(time) || getSeconds(loadMap[index].time) === 0 || Number.isNaN(getSeconds(loadMap[index].time))) {
-                console.log('MAP 2', map, index);
                 ownerPanel.classList.remove('hidden');
                 saveButton.addEventListener('click', function () {
-                    console.log('MAP 3', map, index);
                     if (newCreatedMap && newCreatedMapIndex !== '') {
                         map = newCreatedMap.id;
                         index = newCreatedMapIndex;
@@ -299,9 +345,8 @@ function saveBestTimeOwner(map, index) {
                         loadMap[index].time.owner.id = randomId;
                         loadMap[index].time.owner.name = ownerName.value;
                         loadMap[index].time.owner.date = new Date().getDateString();
-
+                        /* Save new hiscore to localstorage */
                         localStorage.setItem('maps', JSON.stringify(loadMap));
-                        console.log('after save', loadMap);
                         resetStats();
                     }
                 });
@@ -311,7 +356,7 @@ function saveBestTimeOwner(map, index) {
         }
     }
 }
-
+/* === Reset all stats function === */
 function resetStats() {
     var loadedMaps = document.getElementById('loadedMaps');
     var scene = document.querySelector('a-scene');
@@ -371,15 +416,12 @@ function resetStats() {
     });
     loadMap = JSON.parse(localStorage.getItem('maps')) ? JSON.parse(localStorage.getItem('maps')) : [];
     document.getElementById('creator-name').value = '';
-    loadPlaces(loadMap);
+    loadMapsPreview(loadMap);
 }
-
+/* === Player control - moving function === */
 function movePlayer(mapId, mapIndex) {
     var player = document.getElementById('player');
     var pathBoxes = document.querySelectorAll('a-box[option="1"], a-box[option="3"]');
-
-    console.log('new created map', newCreatedMap);
-    console.log('old data', mapId, mapIndex);
 
     if (!AFRAME.components['movement']) {
         AFRAME.registerComponent('movement', {
@@ -387,21 +429,27 @@ function movePlayer(mapId, mapIndex) {
                 var position = this.el.object3D.position;
                 
                 this.el.addEventListener('click', function (evt) {
+                    /* Count will start after teleporting to first block */
                     if (moveCounter === 0) {
                         moveCounter = 1;
                         count();
                     }
+                    /* Triggering finish block */
                     if (evt.target.dataset.name === 'finish') {
                         clearTimeout(timer);
-
                         if (newCreatedMapIndex) {
-                            console.log('NEW DATA', newCreatedMap.id, newCreatedMapIndex);
                             saveBestTimeOwner(newCreatedMap.id, newCreatedMapIndex);
                         } else {
-                            console.log('OLD DATA', mapId, mapIndex);
                             saveBestTimeOwner(mapId, mapIndex);
                         }
                     }
+                    /* Set new color on path block for a 20sec (something like footsteps) */
+                    if (evt.target.dataset.name === 'path') {
+                        evt.target.setAttribute('color', "#e68815");
+                    }
+                    setTimeout(function () {
+                        evt.target.setAttribute('color', "#1ace65");
+                    }, 20000);
                     player.setAttribute('position', {
                         x: position.x,
                         y: 0.5,
@@ -417,8 +465,9 @@ function movePlayer(mapId, mapIndex) {
     });
 }
 
-function saveLabyrinth(loadedLab, indexMap) {
+function renderLabyrinth(loadedLab, indexMap) {
     if (!loadedLab && !indexMap) {
+        /* Validation for selected blocks - "how much have you still to select" */
         if ((labyrinthArray.length / 3) - 5 <= countSelectedBlocks) {
             var errorMsg = document.getElementsByClassName('apply-error')[0];
             errorMsg.innerHTML = '';
@@ -436,18 +485,30 @@ function saveLabyrinth(loadedLab, indexMap) {
         startSelected = true;
     }
     if (renderFinish && startSelected && finishConverting) {
-        var preview3D = document.querySelector('.preview');
-        var editor = document.querySelector('.editor');
+        var preview3D = document.querySelector('.preview'),
+            editor = document.querySelector('.editor');
 
+        /* New or loaded maps */
         if (typeof loadedLab !== 'undefined' && indexMap) {
             generate3DBlocks(loadedLab.map, loadedLab.final);
             setPlayerPosition();
-            console.log(loadedLab.id, indexMap);
             movePlayer(loadedLab.id, indexMap);
         } else {
             newMapId = getRandomId();
 
             createArrayToSave();
+            /* loadMap is an Array, that will be saved in localstorage, with all data like:
+                - person that created map
+                - finalArray to render correct places (wall, start, path, finish)
+                - mapArray (3x3 example): [
+                    [0, 1, 2, 3, 4],
+                    [5, 6, 7, 8, 9],
+                    [10, 11, 12, 13, 14],
+                    [15, 16, 17, 18, 19],
+                    [20, 21, 22, 23, 24]
+                ]
+                - best time (owner, time, date)
+            */
             loadMap.push({
                 id: getRandomId(),
                 creator: {
@@ -455,8 +516,8 @@ function saveLabyrinth(loadedLab, indexMap) {
                     name: document.getElementById('creator-name').value,
                     date: new Date().getDateString()
                 },
-                final: finalArray,
-                map: mapArray,
+                final: finalArray.reverse(),
+                map: mapArray.reverse(),
                 time
             });
 
@@ -476,8 +537,8 @@ function saveLabyrinth(loadedLab, indexMap) {
         document.getElementById('creator-place').innerHTML = '';
     }
 }
-
-function loadPlaces(m) {
+/* === Load saved maps function === */
+function loadMapsPreview(m) {
     var container = document.createDocumentFragment(),
         loadedMaps = document.getElementById('loadedMaps');
         
@@ -488,7 +549,11 @@ function loadPlaces(m) {
         var final = mapObject.final,
             mapBox = document.createElement('div'),
             creatorDiv = document.createElement('p'),
-            placeWidth = Math.sqrt(final.length) * (25 + 2) + 20;
+            placeWidth = Math.sqrt(final.length) * (25 + 2) + 20,
+            creatorName = typeof mapObject.creator !== 'undefined' ? mapObject.creator.name : 'NotDefined',
+            validName = typeof mapObject.time !== 'undefined' && typeof mapObject.time.owner !== 'undefined' && typeof mapObject.time.owner.name !== 'undefined' ? mapObject.time.owner.name : 'Not played yet',
+            validTime = typeof mapObject.time !== 'undefined' ? mapObject.time.stringTime : '00:00:00',
+            validDate = typeof mapObject.time !== 'undefined' && typeof mapObject.time.owner !== 'undefined' && typeof mapObject.time.owner.date !== 'undefined' ? mapObject.time.owner.date : '-';
 
         mapBox.classList.add('map-preview');
         mapBox.setAttribute('style', `min-width: ${placeWidth}px; width: ${placeWidth}px`);
@@ -514,18 +579,15 @@ function loadPlaces(m) {
             }
             mapBox.appendChild(mapElement);
         }
-        var creatorName = typeof mapObject.creator !== 'undefined' ? mapObject.creator.name : 'NotDefined';
-        var validName = typeof mapObject.time !== 'undefined' && typeof mapObject.time.owner !== 'undefined' && typeof mapObject.time.owner.name !== 'undefined' ? mapObject.time.owner.name : 'Not played yet';
-        var validTime = typeof mapObject.time !== 'undefined' ? mapObject.time.stringTime : '00:00:00';
-        var validDate = typeof mapObject.time !== 'undefined' && typeof mapObject.time.owner !== 'undefined' && typeof mapObject.time.owner.date !== 'undefined' ? mapObject.time.owner.date : '-';
+        
         creatorDiv.classList.add('creator-name');
         creatorDiv.innerHTML  += '<span>Created by: <br></span>' + creatorName;
         mapBox.innerHTML += `
-        <div class="hiscore-box">
-        <p class="hi-score-owner"><span>Name:</span> <br> ${validName}</p>
-        <p class="hi-score"><span>Best time:</span> <br> ${validTime}</p>
-        <p class="hi-score-date"><span>Date:</span> <br> ${validDate}</p>
-        </div>
+            <div class="hiscore-box">
+                <p class="hi-score-owner"><span>Name:</span> <br> ${validName}</p>
+                <p class="hi-score"><span>Best time:</span> <br> ${validTime}</p>
+                <p class="hi-score-date"><span>Date:</span> <br> ${validDate}</p>
+            </div>
         `;
         mapBox.prepend(creatorDiv);
         container.appendChild(mapBox);
@@ -534,33 +596,32 @@ function loadPlaces(m) {
     Array.from(document.querySelectorAll('.map-preview')).forEach(function (clickedMap) {
         clickedMap.addEventListener('click', function (e) {
             if (e.target.tagName !== 'P') {
-                saveLabyrinth(loadMap[e.target.dataset.index], e.target.dataset.index);
+                renderLabyrinth(loadMap[e.target.dataset.index], e.target.dataset.index);
             }
         });
     });
 }
 
 window.onload = function () {
-    console.log('Main JS');
-    var acceptButton = document.getElementById('accept-settings');
-    var loaded = document.getElementById('loadedMaps');
-    var preview3D = document.querySelector('.preview');
-    var loadMaps = this.loadMap;
-    console.log('SCENE HAS LOADED', document.querySelector('a-scene').canvas);
+    var acceptButton = document.getElementById('accept-settings'),
+        loaded = document.getElementById('loadedMaps'),
+        preview3D = document.querySelector('.preview'),
+        loadMaps = this.loadMap,
+        lastChange = 0;
 
     preview3D.classList.add('hidden');
     loaded.classList.add('hidden');
     applyLabyrinth = document.getElementById('apply');
     
     document.querySelector('a-entity').setAttribute('test-new', '');
-    var lastChange = 0;
-    function renderPlace() {
-        var gridSettingsNumber = parseFloat(document.getElementById('grid-settings').value);
-        var roundWalls = gridSettingsNumber + 2;
-        var sumOfPaths = roundWalls * roundWalls;
-        var place = document.getElementById('creator-place');
-        var placeWidth = roundWalls * (25 + 2);
-        var fragment = document.createDocumentFragment();
+    
+    function render2DPlane() {
+        var gridSettingsNumber = parseFloat(document.getElementById('grid-settings').value),
+            roundWalls = gridSettingsNumber + 2,
+            sumOfPaths = roundWalls * roundWalls,
+            place = document.getElementById('creator-place'),
+            placeWidth = roundWalls * (25 + 2),
+            fragment = document.createDocumentFragment();
 
         if (gridSettingsNumber > 0) {
             if (lastChange !== gridSettingsNumber) {
@@ -570,8 +631,8 @@ window.onload = function () {
             lastChange = parseFloat(gridSettingsNumber);
 
             for (var p = 0; p < sumOfPaths; p++) {
+                var path = document.createElement('div');
                 pathArray.push(p);
-                const path = document.createElement('div');
                 path.dataset.pathIndex = p;
                 path.classList.add('path');
 
@@ -587,17 +648,15 @@ window.onload = function () {
             newArr.push(pathArray[p]);
         }
         if (renderFinish) {
-            let prev = 0;
-            const paths = Array.from(pathArray);
-            const outer = paths.forEach(function (item) {
-                const pathItem = place.getElementsByClassName('path')[item];
-                const pathIndex = parseFloat(pathItem.dataset.pathIndex);
-                const isOutside = pathItem.dataset.pathIndex <= roundWalls
-                || pathItem.dataset.pathIndex - prev === roundWalls
-                || pathItem.dataset.pathIndex > sumOfPaths - roundWalls
-                && pathItem.dataset.pathIndex < sumOfPaths + 1;
-
-                const rightSide = pathItem.dataset.pathIndex - prev === roundWalls - 1;
+            var prev = 0,
+                outer = Array.from(pathArray).forEach(function (item) {
+                var pathItem = place.getElementsByClassName('path')[item],
+                    pathIndex = parseFloat(pathItem.dataset.pathIndex),
+                    isOutside = pathItem.dataset.pathIndex <= roundWalls
+                    || pathItem.dataset.pathIndex - prev === roundWalls
+                    || pathItem.dataset.pathIndex > sumOfPaths - roundWalls
+                    && pathItem.dataset.pathIndex < sumOfPaths + 1,
+                    rightSide = pathItem.dataset.pathIndex - prev === roundWalls - 1;
 
                 if (isOutside) {
                     prev = pathItem.dataset.pathIndex;
@@ -606,16 +665,18 @@ window.onload = function () {
                     pathItem.classList.add('disabled');
                 }
                 if (pathItem.className.indexOf('disabled') < 0) {
-                    const right = pathIndex + 1;
-                    const left = pathIndex - 1;
-                    const bottom = pathIndex + parseFloat(roundWalls);
-                    const top = pathIndex - parseFloat(roundWalls);
-                    const bottomRight = pathIndex + parseFloat(roundWalls) + 1;
-                    const bottomLeft = pathIndex + parseFloat(roundWalls) - 1;
-                    const topRight = pathIndex - parseFloat(roundWalls) + 1;
-                    const topLeft = pathIndex - parseFloat(roundWalls) - 1;
+                    var right = pathIndex + 1,
+                        left = pathIndex - 1,
+                        bottom = pathIndex + parseFloat(roundWalls),
+                        top = pathIndex - parseFloat(roundWalls),
+                        bottomRight = pathIndex + parseFloat(roundWalls) + 1,
+                        bottomLeft = pathIndex + parseFloat(roundWalls) - 1,
+                        topRight = pathIndex - parseFloat(roundWalls) + 1,
+                        topLeft = pathIndex - parseFloat(roundWalls) - 1;
 
+                    /* Generate next choosable option */
                     validPathOptions[pathIndex] = [pathIndex, right, left, bottom, top];
+                    /* Generate possible walls array for every block index */
                     disableIfSelected[pathIndex] = {
                         TopLeft: {
                             options: [pathIndex, right, topRight],
@@ -652,6 +713,7 @@ window.onload = function () {
                     };
                     availablePathsArray.push(pathIndex);
                     activePathArray[pathIndex] = true;
+                    /* Create standard option in labyrinthArray for choosable blocks */
                     labyrinthArray.push({
                         active: true,
                         selected: false,
@@ -660,6 +722,7 @@ window.onload = function () {
                     });
                 } else {
                     activePathArray[pathIndex] = false;
+                    /* Create standard option in labyrinthArray for not choosable blocks */
                     labyrinthArray.push({
                         active: false,
                         selected: false,
@@ -668,10 +731,10 @@ window.onload = function () {
                     });
                 }
                 pathItem.onclick = function (event) {
-                    const elementIndex = pathIndex;
+                    var elementIndex = pathIndex;
 
                     if (labyrinthArray[elementIndex].active) {
-                        buildMaze(event);
+                        selectLabyrinthPath(event);
                     }
                 };
             });
@@ -685,20 +748,17 @@ window.onload = function () {
         }
     };
 
-    renderPlace();
+    render2DPlane();
+
     if (!renderFinish) {
-        acceptButton.addEventListener('click', e => renderPlace(e));
+        acceptButton.addEventListener('click', function (e) {render2DPlane(e)});
     }
-    applyLabyrinth.addEventListener('click', e => saveLabyrinth());
-    document.getElementById('another-maps').addEventListener('click', function (e) {
-        document.getElementById('loadedMaps').classList.remove('hidden');
-        document.querySelector('.editor').classList.add('blury');
-    });
-    document.querySelector('.close-btn').addEventListener('click', function (e) {
-        document.getElementById('loadedMaps').classList.add('hidden');
-        document.querySelector('.editor').classList.remove('blury');
-    });
+
+    applyLabyrinth.addEventListener('click', function () {renderLabyrinth()});
+
+    modalFunction([document.getElementById('help'), document.getElementById('another-maps')]);
+
     if (loadMaps.length > 0) {
-        this.loadPlaces(loadMaps);
+        this.loadMapsPreview(loadMaps);
     }
 };

@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Labirynt Game</title>
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="/logo-labyrinth-game.ico" />
     <script src="./assets/js/main.js"></script>
     <script src="https://js13kgames.com/webxr-src/aframe.js"></script>
 </head>
@@ -18,25 +19,43 @@
             </div>
             <div class="editor-body">
                 <div id="settings-place">
-                    <label for="creator-name">Creator Name</label>
+                    <label for="creator-name">Creator name</label>
                     <input id="creator-name" name="creator-name" type="text" placeholder="Write your name"/>
                     <label for="grid-settings">Set number of columns</label>
                     <input id="grid-settings" name="grid-settings" type="number" placeholder="0"/>
-                    <button id="accept-settings">Accept Settings</button>
+                    <button id="accept-settings">Accept settings</button>
                 </div>
                 <div id="creator-place"></div>
                 <div class="apply-block">
-                    <button id="apply">Lets Go!</button>
-                    <button id="another-maps">See Others Maps</button>
+                    <button id="apply">Let's go!</button>
+                    <button id="another-maps" data-target="loadedMaps">See other maps</button>
+                    <button id="help" data-target="help-modal">Get some help</button>
                     <h3 class="apply-error"></h3>
                 </div>
             </div>
     </div>
 
-    <div id="loadedMaps" class="hidden">
-        <div class="close-btn">
-            <div class="first-line"></div>
-            <div class="second-line"></div>
+    <div id="loadedMaps" class="hidden"></div>
+
+    <div id="help-modal" class="hidden">
+        <div class="help-body">
+            <h2>How to play</h2>
+            <ul class="help-info-list">
+                <li>1. Define the number of columns and type in your name.</li>
+                <li>
+                    <p>2. Createyour own labyrinth</p>
+                    <ul class="help-second">
+                        <li class="text"><b>Legend:</b></li>
+                        <li class="wall" data-color="#333"> - walls</li>
+                        <li class="start"> - define start on first click</li>
+                        <li class="paths"> - define path</li>
+                        <li class="finish"> - last click defines finish</li>
+                        <li class="option"> - choosable option</li>
+                        <li class="default"> - option to chose</li>
+                    </ul>
+                </li>
+                <li>3. Start the game and enjoy your way!</li>
+            </ul>
         </div>
     </div>
 
@@ -48,8 +67,11 @@
     </div>
 
     <div class="preview">
-        <a-scene id="labyrinth-scene" background="color: #000;">
-            <a-entity id="player" light="type: point; color: #7efce9; intensity: 7; decay: 4.5; distance: 5;">
+        <a-scene  id="labyrinth-scene" background="color: #000;">
+            <!-- <a-entity light="type: directional; castShadow: true; intensity: 1.4; shadowCameraBottom: -5; shadowCameraFar: 13; shadowCameraFov: 10; shadowCameraLeft: -10; shadowCameraNear: 6; shadowCameraRight: 10; shadowCameraTop: 10; shadowCameraRadius: 100;" position="-1.8 7 -1.2"></a-entity> -->
+            <!-- <a-entity light="type: point; color: #ffffff; intensity: 7; decay: 4.5; distance: 5;"></a-entity> -->
+            <!-- light="type: point; color: #ffffff; intensity: 7; decay: 4.5; distance: 5;" -->
+            <a-entity id="player" position="0 2 1" light="type: point; color: #ffffff; intensity: 2; decay: 2; distance: 5;">
                 <a-entity camera look-controls wasd-controls="enabled: false">
                     <a-entity id="cursor" position="0 0 -0.5" geometry="primitive: ring; radiusOuter: 0.016; radiusInner: 0.01;" material="color: #FFF;" cursor="fuseTimeout: 500;fuse: true; maxDistance: 8;">
                         <a-entity attribute="scale" animation="easing: easeInQuad; from: 1 1 1; startEvents: mouseenter; to: 0 0 0; dur: 500"></a-entity>

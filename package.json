@@ -1,0 +1,30 @@
+{
+  "name": "labyrinth-game",
+  "version": "1.0.0",
+  "description": "Simple game about creating your own labyrinths.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nienormalny/labyrinth-game.git"
+  },
+  "keywords": [
+    "labyrinth",
+    "vr",
+    "game",
+    "creator",
+    "3d",
+    "360",
+    "javascript",
+    "html",
+    "css"
+  ],
+  "author": "Nienormalny",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nienormalny/labyrinth-game/issues"
+  },
+  "homepage": "https://github.com/Nienormalny/labyrinth-game#readme"
+}
