@@ -31,13 +31,13 @@ var countClick = 0,
 
 /* === Usefull functions === */
 Date.prototype.getDateString = function () {
-    var dd = this.getDate(),
-        mm = this.getMonth() + 1,
-        yyyy = this.getFullYear(),
-        fullDate = (dd > 9 ? '' : '0') + dd + '.' + (mm > 9 ? '' : '0') + mm + '.' + yyyy
+    var dd = String(this.getDate()).padStart(2, '0'),
+        mm = String(this.getMonth() + 1).padStart(2, '0'),
+        yyyy = String(this.getFullYear()).padStart(2, '0');
 
-    return fullDate;
-}
+    return dd + mm + yyyy;
+};
+
 function getRandomId() {
     var random = function () {
         return (((1+Math.random()) * 0x10000)|0).toString(16).substring(1);
@@ -96,17 +96,18 @@ function countTime() {
             hours++;
         }
     }
-    var fullTime = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+    var fullTime = String(hours).padStart(2, '0') + ":" + String(minutes).padStart(2, '0') + ":" + String(seconds).padStart(2, '0');
     time = {
-        seconds,
-        minutes,
-        hours,
+        seconds: seconds,
+        minutes: minutes,
+        hours: hours,
         stringTime: fullTime,
         owner: {}
-    }
+    };
     timerValue.setAttribute('value', fullTime);
     count();
 }
+
 function count() {
     timer = setTimeout(countTime, 1000);
 }
@@ -116,7 +117,7 @@ function showValidOptions(pathIndex) {
     
     countSelectedBlocks = countSelectedBlocks + 1;
 
-    var validOptions = Array.from(validPathOptions[pathIndex]).forEach(function (option) {
+    Array.from(validPathOptions[pathIndex]).forEach(function (option) {
         var rest = activePaths.indexOf(parseFloat(option));
         // validPathOption looks like [clicked element, right, left, bottom, top]
         var pathOption = document.getElementsByClassName('path')[option];
@@ -126,7 +127,8 @@ function showValidOptions(pathIndex) {
             activePaths.splice(rest, 1);
         }
 
-        if (activePathArray[option]) {
+        // mark path to use, but not already disabled blocks
+        if (activePathArray[option] && !pathOption.classList.contains('disabled')) {
             labyrinthArray[pathIndex].selected = true;
             activePathArray[pathIndex] = false;
 
@@ -135,7 +137,7 @@ function showValidOptions(pathIndex) {
         }
     });
     /* === Disable block - create wall === */
-    var disableBlock = Object.keys(disableIfSelected[pathIndex]).map(function (position) {
+    Object.keys(disableIfSelected[pathIndex]).map(function (position) {
         var disOption = disableIfSelected[pathIndex][position],
             pathElement = document.getElementsByClassName('path')[disOption.disable],
             countDisabled = 0,
@@ -148,7 +150,6 @@ function showValidOptions(pathIndex) {
                     pathElement.classList.add('disabled');
                     pathElement.style.pointerEvents = 'none';
                     labyrinthArray[disOption.disable].active = false;
-                    return;
                 }
             }
         });
@@ -467,15 +468,14 @@ function movePlayer(mapId, mapIndex) {
 
 function renderLabyrinth(loadedLab, indexMap) {
     if (!loadedLab && !indexMap) {
+        var errorMsg = document.getElementsByClassName('apply-error')[0];
         /* Validation for selected blocks - "how much have you still to select" */
         if ((labyrinthArray.length / 3) - 5 <= countSelectedBlocks) {
-            var errorMsg = document.getElementsByClassName('apply-error')[0];
             errorMsg.innerHTML = '';
             errorMsg.style = '';
             setRestToDisabled();
             convertBlocks();
         } else {
-            var errorMsg = document.getElementsByClassName('apply-error')[0];
             errorMsg.innerHTML = 'Please select more blocks. <br> <b>Blocks to select:</b> ' + Math.round((labyrinthArray.length / 3) - countSelectedBlocks) + '<br> <b>Selected Blocks: </b>' + countSelectedBlocks;
             errorMsg.style.display = 'block';
         }
@@ -494,8 +494,6 @@ function renderLabyrinth(loadedLab, indexMap) {
             setPlayerPosition();
             movePlayer(loadedLab.id, indexMap);
         } else {
-            newMapId = getRandomId();
-
             createArrayToSave();
             /* loadMap is an Array, that will be saved in localstorage, with all data like:
                 - person that created map
@@ -518,7 +516,7 @@ function renderLabyrinth(loadedLab, indexMap) {
                 },
                 final: finalArray.reverse(),
                 map: mapArray.reverse(),
-                time
+                time: time
             });
 
             newCreatedMap = loadMap[loadMap.length - 1];
@@ -731,9 +729,7 @@ window.onload = function () {
                     });
                 }
                 pathItem.onclick = function (event) {
-                    var elementIndex = pathIndex;
-
-                    if (labyrinthArray[elementIndex].active) {
+                    if (labyrinthArray[pathIndex].active) {
                         selectLabyrinthPath(event);
                     }
                 };
@@ -746,7 +742,7 @@ window.onload = function () {
             }, []);
             document.getElementById('settings-place').classList.add('hidden');
         }
-    };
+    }
 
     render2DPlane();
 
