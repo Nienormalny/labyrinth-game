@@ -16,6 +16,7 @@ The main thought is to train your memory while you always have that little taste
 ![Labyrinth editor](http://nienormalny.org/labirynt-game/assets/img/lab-creator.png)
 
 **Legend:**
+- ![#333333](https://placehold.it/15/333333/000000?text=+) - define walls
 - ![#ff2c2c](https://placehold.it/15/ff2c2c/000000?text=+) - define start on first click
 - ![#1ace65](https://placehold.it/15/1ace65/000000?text=+) - define path
 - ![#0e7ef6](https://placehold.it/15/0e7ef6/000000?text=+) - last click defines finish
