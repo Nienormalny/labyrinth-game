@@ -1,3 +1,5 @@
 # IDE files
 .vscode/launch.json
 .idea/*
+
+test.json

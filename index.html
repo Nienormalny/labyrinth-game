@@ -7,14 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Labirynt Game</title>
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="./logo-labyrinth-game.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="/logo-labyrinth-game.ico" />
     <script src="./assets/js/main.js"></script>
     <script src="https://js13kgames.com/webxr-src/aframe.js"></script>
 </head>
 <body>
     <div class="editor">
             <div class="heading">
-                <h1>Welcome in Labyrinth Game</h1>
+                <h1>Welcome to the Labyrinth Game</h1>
                 <h3>Creat your own labyrinth!</h3>
             </div>
             <div class="editor-body">
@@ -24,6 +24,7 @@
                     <label for="grid-settings">Set number of columns</label>
                     <input id="grid-settings" name="grid-settings" type="number" placeholder="0"/>
                     <button id="accept-settings">Accept settings</button>
+                    <button id="vr-creator">Create in VR</button>
                 </div>
                 <div id="creator-place"></div>
                 <div class="apply-block">
@@ -68,18 +69,30 @@
 
     <div class="preview">
         <a-scene  id="labyrinth-scene" background="color: #000;">
-            <!-- <a-entity light="type: directional; castShadow: true; intensity: 1.4; shadowCameraBottom: -5; shadowCameraFar: 13; shadowCameraFov: 10; shadowCameraLeft: -10; shadowCameraNear: 6; shadowCameraRight: 10; shadowCameraTop: 10; shadowCameraRadius: 100;" position="-1.8 7 -1.2"></a-entity> -->
-            <!-- <a-entity light="type: point; color: #ffffff; intensity: 7; decay: 4.5; distance: 5;"></a-entity> -->
-            <!-- light="type: point; color: #ffffff; intensity: 7; decay: 4.5; distance: 5;" -->
-            <a-entity id="player" position="0 2 1" light="type: point; color: #ffffff; intensity: 2; decay: 2; distance: 5;">
+            <a-entity id="player" position="0 2 0" light="type: point; color: #ffffff; intensity: 2; decay: 2; distance: 5;">
+                <a-entity laser-controls raycaster="far: 35"></a-entity>
                 <a-entity camera look-controls wasd-controls="enabled: false">
-                    <a-entity id="cursor" position="0 0 -0.5" geometry="primitive: ring; radiusOuter: 0.016; radiusInner: 0.01;" material="color: #FFF;" cursor="fuseTimeout: 1000;fuse: true;">
-                        <a-entity attribute="scale" animation="easing: easeInQuad; from: 1 1 1; startEvents: mouseenter; to: 0 0 0; dur: 500"></a-entity>
+                    <a-entity id="cursor" position="0 0 -0.5" geometry="primitive: ring; radiusOuter: 0.012; radiusInner: 0.005;" material="color: #FFF;" cursor="fuseTimeout: 1000; fuse: true;" visible="true">
+                        <a-entity animation="easing: easeInQuad; property: geometry.radiusOuter; from: 0.012; startEvents: mouseenter; to: 0.015; dur: 500"></a-entity>
                     </a-entity>
                     <a-entity  position="0 0.1 -0.4">
-                        <a-text id="timer" value="00:00:00" align="center" height="0.3" width="0.3"></a-text>
+                        <a-text id="timer" value="00:00:00" align="center" height="0.3" width="0.3" visible="false"></a-text>
                     </a-entity>
                 </a-entity>
+            </a-entity>
+            <a-entity id="render-vr">
+                <a-entity light="type: spot; color: #ffffff; intensity: 7; decay: 1.6; distance: 18;" position="0 7.5 -18"></a-entity>
+                <a-plane rotation="-90 0 0" color="#fd2929" scale="10 10 0"></a-plane>
+                <a-entity position="0 1 -0.5" >
+                    <a-text id="vr-info" value="Chose your labyrinth grid" align="center" scale="0.4 0.4 1" position="0 2.7 -1.4" geometry="primitive: plane; width: 3; height: 0.5" material="color: #0e7ef6;"></a-text>
+                    <a-text class="get-grid-value clickable" value="10x10" data-value="10" align="center" geometry="primitive: plane;" material="color: #fd2929" scale="0.21 0.21 1" position="-0.3 2.3 -1.14"></a-text>
+                    <a-text class="get-grid-value clickable" value="15x15" data-value="15" align="center" geometry="primitive: plane" material="color: #fd2929" scale="0.21 0.21 1" position="0 2.3 -1.14"></a-text>
+                    <a-text class="get-grid-value clickable" value="20x20" data-value="20" align="center" geometry="primitive: plane" material="color: #fd2929" scale="0.21 0.21 1" position="0.3 2.3 -1.14"></a-text>
+                </a-entity>
+                <a-entity id="render-grid" position="0 0 -35" rotation="0 0 0"></a-entity>
+                <a-text id="toggle-cursor" class="clickable" value="Click to turn off circle at the center" align="center" geometry="primitive: plane; width: 4" material="color: #fd2929" scale="0.3 0.3 1" position="0 1.5 -3" rotation="-45 0 0"></a-text>
+                <a-text id="start-game" value="START GAME" align="center" geometry="primitive: plane;  width: 3" material="color: #05a349" scale="0.3 0.3 1" position="0 1.5 -2" rotation="-45 0 0"></a-text>
+                <a-box geometry="primitive: cylinder" color="#ddd" scale="1 1 1"></a-box>
             </a-entity>
         </a-scene>
     </div>
