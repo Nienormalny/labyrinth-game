@@ -35,7 +35,7 @@ Date.prototype.getDateString = function () {
         mm = String(this.getMonth() + 1).padStart(2, '0'),
         yyyy = String(this.getFullYear()).padStart(2, '0');
 
-    return dd + mm + yyyy;
+    return dd + '.' + mm + '.' + yyyy;
 };
 
 function getRandomId() {
@@ -256,7 +256,6 @@ function generate3DBlocks(map, final) {
             blockHtml.setAttribute('rotation', "0 0 0");
             blockHtml.setAttribute('color', "#0e7ef6");
             blockHtml.setAttribute('position', `${x} 0.5 ${z}`);
-            blockHtml.setAttribute('shadow', `cast:true; receive:true; type: pcfsoft;`);
             /* Render finish block (blue) */
             if (finalArray[mapArray[x][z]] === 3) {
                 blockHtml.setAttribute('color', "blue");
@@ -468,17 +467,21 @@ function movePlayer(mapId, mapIndex) {
 
 function renderLabyrinth(loadedLab, indexMap) {
     if (!loadedLab && !indexMap) {
-        var errorMsg = document.getElementsByClassName('apply-error')[0];
+        var errorMsg = document.getElementsByClassName('apply-error')[0],
+            message = '';
         /* Validation for selected blocks - "how much have you still to select" */
-        if ((labyrinthArray.length / 3) - 5 <= countSelectedBlocks) {
-            errorMsg.innerHTML = '';
+        if (labyrinthArray.length === 0) { //not defined the labyrinth size yet
+            message = 'Please define your map first, or load a created one, before you can start';
+            errorMsg.style.display = 'block';
+        } else if ((labyrinthArray.length / 3) - 5 <= countSelectedBlocks) {
             errorMsg.style = '';
             setRestToDisabled();
             convertBlocks();
         } else {
-            errorMsg.innerHTML = 'Please select more blocks. <br> <b>Blocks to select:</b> ' + Math.round((labyrinthArray.length / 3) - countSelectedBlocks) + '<br> <b>Selected Blocks: </b>' + countSelectedBlocks;
+            message = 'Please select more blocks. <br> <b>Blocks to select:</b> ' + Math.round((labyrinthArray.length / 3) - countSelectedBlocks) + '<br> <b>Selected Blocks: </b>' + countSelectedBlocks;
             errorMsg.style.display = 'block';
         }
+        errorMsg.innerHTML = message;
     } else {
         finishConverting = true;
         renderFinish = true;
