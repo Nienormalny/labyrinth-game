@@ -605,12 +605,11 @@ function renderLabyrinth(loadedLab, indexMap) {
             message = 'Please define your map first, or load a created one, before you can start';
             errorMsg.style.display = 'block';
         } else if ((labyrinthArray.length / 3) - 5 <= countSelectedBlocks || vrView) {
-            errorMsg.innerHTML = '';
             errorMsg.style = '';
             setRestToDisabled();
             convertBlocks();
         } else {
-            errorMsg.innerHTML = 'Please select more blocks. <br> <b>Blocks to select:</b> ' + Math.round((labyrinthArray.length / 3) - countSelectedBlocks) + '<br> <b>Selected Blocks: </b>' + countSelectedBlocks;
+            message = 'Please select more blocks. <br> <b>Blocks to select:</b> ' + Math.round((labyrinthArray.length / 3) - countSelectedBlocks) + '<br> <b>Selected Blocks: </b>' + countSelectedBlocks;
             errorMsg.style.display = 'block';
         }
         errorMsg.innerHTML = message;
