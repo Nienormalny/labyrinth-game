@@ -162,9 +162,10 @@ function modalFunction(modalElements) {
         modalElements[element].addEventListener('click', function (e) {
             var el = e.target,
                 target = document.getElementById(el.dataset.target);
-
-            target.classList.remove('hidden');
+            if (target) {
+                target.classList.remove('hidden');
             target.prepend(getCloseButton(target));
+            }
             document.querySelector('.editor').classList.add('blury');
         });
     }
@@ -728,6 +729,7 @@ function loadMapsPreview(m) {
     Array.from(document.querySelectorAll('.map-preview')).forEach(function (clickedMap) {
         clickedMap.addEventListener('click', function (e) {
             if (e.target.tagName !== 'P') {
+                document.querySelector('.editor').classList.remove('blury');
                 renderLabyrinth(loadMap[e.target.dataset.index], e.target.dataset.index);
             }
         });
@@ -793,9 +795,12 @@ window.onload = function () {
                 fragment.appendChild(path);
             }
             place.appendChild(fragment);
+            document.getElementById('apply').classList.remove('hidden');
 
             place.style.width = placeWidth + 'px';
             renderFinish = true;
+        } else {
+            acceptButton.classList.add('disabled-btn');
         }
         
         for (var p = 0; p < pathArray.length; p = p+roundWalls) {
@@ -948,6 +953,7 @@ window.onload = function () {
             }
             document.getElementById('render-grid').setAttribute('animation', `easing: easeOutElastic; from: -${Math.round(value / 2)} 0 -20; to: -${Math.round(value / 2)} 0 -28; property: position; dur: 1500`);
             document.getElementById('settings-place').classList.add('hidden');
+            document.getElementById('creator-place').classList.remove('hidden');
         }
         if (vrView) {
             var gridValue = document.querySelectorAll('.get-grid-value');
@@ -1045,6 +1051,18 @@ window.onload = function () {
     applyLabyrinth.addEventListener('click', function () {
         document.getElementById('render-vr').setAttribute('visible', false);
         renderLabyrinth();
+    });
+
+    document.querySelector('a-scene').addEventListener('exit-vr', function () {
+        document.getElementById('apply').classList.add('hidden');
+        document.getElementById('creator-place').classList.add('hidden');
+        if (document.querySelector('.close-btn')) {
+            document.querySelector('.close-btn').remove();
+        }
+    });
+
+    document.getElementById('grid-settings').addEventListener('keyup', function () {
+        acceptButton.classList.remove('disabled-btn');
     });
 
     modalFunction([document.getElementById('help'), document.getElementById('another-maps')]);
