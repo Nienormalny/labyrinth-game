@@ -742,7 +742,7 @@ function loadMapsPreview(m) {
                     mapElement.classList.add('path', 'finish');
                     break;
             }
-            mapBox.appendChild(mapElement);
+            mapBox.prepend(mapElement);
         }
         
         creatorDiv.classList.add('creator-name');
