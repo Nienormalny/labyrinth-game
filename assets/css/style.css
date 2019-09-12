@@ -31,6 +31,9 @@ body.aframe-inspector-opened:after {
   font-size: 25px;
   line-height: 100vh;
 }
+.aframe-inspector-opened .editor {
+  display: none !important;
+}
 .heading {
   color: white;
   margin-top: 15px;
