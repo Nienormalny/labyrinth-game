@@ -597,23 +597,42 @@ function movePlayer(mapId, mapIndex) {
     });
 }
 
+function toggleErrorMessage(message) {
+    var errorMsg = document.getElementsByClassName('apply-error')[0];
+    if (vrView) {
+        if (message.length !== 0) {
+            document.getElementById('vr-error').setAttribute('visible', true);
+            document.getElementById('vr-error').setAttribute('value', message);
+        } else {
+            document.getElementById('vr-error').setAttribute('visible', false);
+            document.getElementById('vr-error').setAttribute('value', message);
+        }
+    } else {
+        if (message.length !== 0) {
+            errorMsg.style.display = 'block';
+            errorMsg.innerHTML = message;
+        } else {
+            errorMsg.style = '';
+            errorMsg.innerHTML = message;
+        }
+    }
+}
+
 function renderLabyrinth(loadedLab, indexMap) {
     if (!loadedLab && !indexMap) {
-        var errorMsg = document.getElementsByClassName('apply-error')[0],
-            message = '';
         /* Validation for selected blocks - "how much have you still to select" */
-        if (labyrinthArray.length === 0 && !vrView) {
-            message = 'Please define your map first, or load a created one, before you can start';
-            errorMsg.style.display = 'block';
-        } else if ((labyrinthArray.length / 3) - 5 <= countSelectedBlocks || vrView) {
-            errorMsg.style = '';
+        if (labyrinthArray.length === 0) {
+            toggleErrorMessage('Please define your map first, or load a created one, before you can start');
+        } else if (countSelectedBlocks > 3) {
+            toggleErrorMessage('');
             setRestToDisabled();
             convertBlocks();
+            if (vrView) {
+                document.getElementById('render-vr').setAttribute('visible', false)
+            }
         } else {
-            message = 'Please select more blocks. <br> <b>Blocks to select:</b> ' + Math.round((labyrinthArray.length / 3) - countSelectedBlocks) + '<br> <b>Selected Blocks: </b>' + countSelectedBlocks;
-            errorMsg.style.display = 'block';
+            toggleErrorMessage('Please select at least 3 blocks.');
         }
-        errorMsg.innerHTML = message;
     } else {
         finishConverting = true;
         renderFinish = true;
@@ -757,6 +776,12 @@ window.onload = function () {
             gridSettingsNumber = parseFloat(value);
         } else {
             gridSettingsNumber = parseFloat(document.getElementById('grid-settings').value);
+        }
+        if (gridSettingsNumber < 5 || gridSettingsNumber > 30) {
+            toggleErrorMessage('Please choose a number between 5 and 30');
+            return;
+        } else {
+            toggleErrorMessage('');
         }
         var roundWalls = gridSettingsNumber + 2,
             sumOfPaths = roundWalls * roundWalls,
@@ -977,7 +1002,6 @@ window.onload = function () {
                     init: function () {
                         this.el.addEventListener('click', function () {
                             renderLabyrinth();
-                            document.getElementById('render-vr').setAttribute('visible', false);
                         });
                     }
                 });
@@ -1049,7 +1073,6 @@ window.onload = function () {
     }
 
     applyLabyrinth.addEventListener('click', function () {
-        document.getElementById('render-vr').setAttribute('visible', false);
         renderLabyrinth();
     });
 
