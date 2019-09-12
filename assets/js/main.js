@@ -10,6 +10,7 @@ var countClick = 0,
     pathSelected = false,
     finishConverting = false,
     ownerSaved = false,
+    vrView = false,
     pathArray = [],
     availablePathsArray = [],
     activePathArray = [],
@@ -120,7 +121,12 @@ function showValidOptions(pathIndex) {
     Array.from(validPathOptions[pathIndex]).forEach(function (option) {
         var rest = activePaths.indexOf(parseFloat(option));
         // validPathOption looks like [clicked element, right, left, bottom, top]
-        var pathOption = document.getElementsByClassName('path')[option];
+        var pathOption;
+        if (vrView) {
+            pathOption = document.getElementsByClassName('grid-path')[option];
+        } else {
+            pathOption = document.getElementsByClassName('path')[option];
+        }
         lastClicked = pathIndex;
 
         if (rest > -1) {
@@ -134,13 +140,22 @@ function showValidOptions(pathIndex) {
 
             pathOption.style.pointerEvents = 'auto';
             pathOption.classList.add('to-use');
+            if (vrView && !pathOption.classList.contains('selected') && !pathOption.classList.contains('start-selected') && !pathOption.classList.contains('start-selected')) {
+                pathOption.setAttribute('color', '#ec902e');
+                pathOption.classList.add('clickable');
+            }
         }
     });
     /* === Disable block - create wall === */
     Object.keys(disableIfSelected[pathIndex]).map(function (position) {
         var disOption = disableIfSelected[pathIndex][position],
-            pathElement = document.getElementsByClassName('path')[disOption.disable],
-            countDisabled = 0,
+            pathElement;
+            if (vrView) {
+                pathElement = document.getElementsByClassName('grid-path')[disOption.disable];
+            } else {
+                pathElement = document.getElementsByClassName('path')[disOption.disable];
+            }
+        var countDisabled = 0,
             checkSelected = Array.from(disOption.options).forEach(function (opt) {
             if (labyrinthArray[opt].selected) {
                 countDisabled = countDisabled + 1;
@@ -148,15 +163,26 @@ function showValidOptions(pathIndex) {
                     countDisabled = 0;
                     pathElement.classList.remove('to-use');
                     pathElement.classList.add('disabled');
+                    if (vrView) {
+                        pathElement.setAttribute('color', '#333333');
+                    }
                     pathElement.style.pointerEvents = 'none';
                     labyrinthArray[disOption.disable].active = false;
+                    document.getElementsByClassName('js-clock');
+                    document.querySelector(".js-clock");
+                    document.getElementsByTagName('h1');
                 }
             }
         });
     });
     /* === Show selected paths / adding class to selected === */
     var paths = Array.from(pathArray).forEach(function (item) {
-        var thisItem = document.getElementsByClassName('path')[item];
+        var thisItem;
+        if (vrView) {
+            thisItem = document.getElementsByClassName('grid-path')[item];
+        } else {
+            thisItem = document.getElementsByClassName('path')[item];
+        }
         Array.from(activePaths).forEach(function (ap) {
             if (item === ap) {
                 thisItem.style.pointerEvents = 'none';
@@ -171,10 +197,18 @@ function showValidOptions(pathIndex) {
 }
 /* === Selecting start function === */
 function selectStart(element, index) {
+    var clickable = document.querySelectorAll('.clickable');
+    Array.from(clickable).forEach(function (clickableElement) {
+        clickableElement.classList.remove('clickable');
+    });
+
     if (renderFinish) {
         countClick = 1;
         labyrinthArray[index].option = 2;
         element.classList.add('start-selected');
+        if (vrView) {
+            element.setAttribute('color', '#fd2929');
+        }
         startSelected = true;
         showValidOptions(index);
     }
@@ -183,6 +217,9 @@ function selectStart(element, index) {
 function selectPath(element, index) {
     if (startSelected && renderFinish && labyrinthArray.length !== 0) {
         element.classList.add('selected');
+        if (vrView) {
+            element.setAttribute('color', '#1ace65');
+        }
         showValidOptions(index);
     }
 }
@@ -209,6 +246,7 @@ function setRestToDisabled() {
         if (!labyrinthArray[block].selected) {
             labyrinthArray[block].active = false;
             pathElement.classList.remove('to-use');
+            pathElement.classList.remove('clickable');
             pathElement.classList.add('disabled');
             pathElement.style.pointerEvents = 'none';
         }
@@ -250,8 +288,8 @@ function generate3DBlocks(map, final) {
     mapArray = typeof map !== 'undefined' ? map : mapArray;
     finalArray = typeof final !== 'undefined' ? final : finalArray;
 
-    var vertical = Array.from(mapArray).forEach(function (n, x) {
-        var horizontal = Array.from(mapArray).forEach(function (a, z) {
+    Array.from(mapArray).forEach(function (n, x) {
+        Array.from(mapArray).forEach(function (a, z) {
             var blockHtml = document.createElement('a-box');
             blockHtml.setAttribute('rotation', "0 0 0");
             blockHtml.setAttribute('color', "#0e7ef6");
@@ -291,11 +329,12 @@ function generate3DBlocks(map, final) {
                 blockHtml.setAttribute('color', "#333333");
                 blockHtml.setAttribute('data-name', "wall");
                 blockHtml.setAttribute('option', "0");
-                blockHtml.setAttribute('height', "3");
+                blockHtml.setAttribute('height', "5");
             }
             container.appendChild(blockHtml);
         });
     });
+    document.getElementById('timer').setAttribute('visible', true);
     scene.appendChild(container);
 }
 /* === Setting player position === */
@@ -363,7 +402,7 @@ function resetStats() {
 
     document.querySelector('.preview').classList.add('hidden');
     document.querySelector('.editor').classList.remove('hidden');
-    document.querySelector('.editor').classList.remove('blury');
+    document.querySelector('[cursor]').setAttribute('visible', true);
     document.getElementById('loadedMaps').classList.remove('hidden');
     document.getElementById('grid-settings').value = '';
     document.getElementById('owner-name').value = '';
@@ -385,6 +424,7 @@ function resetStats() {
     pathSelected = false;
     finishConverting = false;
     ownerSaved = false;
+    vrView = false;
     pathArray = [];
     availablePathsArray = [];
     activePathArray = [];
@@ -407,6 +447,7 @@ function resetStats() {
             }
         }
     });
+    document.getElementById('render-grid').innerHTML = '';
     Array.from(loadedMaps.children).forEach(function (el) {
         if (typeof el !== 'undefined') {
             if (!el.classList.contains('close-btn')) {
@@ -416,6 +457,7 @@ function resetStats() {
     });
     loadMap = JSON.parse(localStorage.getItem('maps')) ? JSON.parse(localStorage.getItem('maps')) : [];
     document.getElementById('creator-name').value = '';
+    document.getElementById('render-grid').value = '';
     loadMapsPreview(loadMap);
 }
 /* === Player control - moving function === */
@@ -470,15 +512,16 @@ function renderLabyrinth(loadedLab, indexMap) {
         var errorMsg = document.getElementsByClassName('apply-error')[0],
             message = '';
         /* Validation for selected blocks - "how much have you still to select" */
-        if (labyrinthArray.length === 0) { //not defined the labyrinth size yet
+        if (labyrinthArray.length === 0 && !vrView) {
             message = 'Please define your map first, or load a created one, before you can start';
             errorMsg.style.display = 'block';
-        } else if ((labyrinthArray.length / 3) - 5 <= countSelectedBlocks) {
+        } else if ((labyrinthArray.length / 3) - 5 <= countSelectedBlocks || vrView) {
+            errorMsg.innerHTML = '';
             errorMsg.style = '';
             setRestToDisabled();
             convertBlocks();
         } else {
-            message = 'Please select more blocks. <br> <b>Blocks to select:</b> ' + Math.round((labyrinthArray.length / 3) - countSelectedBlocks) + '<br> <b>Selected Blocks: </b>' + countSelectedBlocks;
+            errorMsg.innerHTML = 'Please select more blocks. <br> <b>Blocks to select:</b> ' + Math.round((labyrinthArray.length / 3) - countSelectedBlocks) + '<br> <b>Selected Blocks: </b>' + countSelectedBlocks;
             errorMsg.style.display = 'block';
         }
         errorMsg.innerHTML = message;
@@ -613,16 +656,30 @@ window.onload = function () {
     preview3D.classList.add('hidden');
     loaded.classList.add('hidden');
     applyLabyrinth = document.getElementById('apply');
+    document.getElementById('timer').setAttribute('visible', false);
     
     document.querySelector('a-entity').setAttribute('test-new', '');
     
-    function render2DPlane() {
-        var gridSettingsNumber = parseFloat(document.getElementById('grid-settings').value),
-            roundWalls = gridSettingsNumber + 2,
+    function render2DPlane(value) {
+        var gridSettingsNumber;
+        if (vrView) {
+            gridSettingsNumber = parseFloat(value);
+        } else {
+            gridSettingsNumber = parseFloat(document.getElementById('grid-settings').value);
+        }
+        var roundWalls = gridSettingsNumber + 2,
             sumOfPaths = roundWalls * roundWalls,
-            place = document.getElementById('creator-place'),
-            placeWidth = roundWalls * (25 + 2),
+            vrInfo = document.getElementById('vr-info');
+        var place;
+            if (vrView) {
+                place = document.getElementById('render-grid');
+            } else {
+                place = document.getElementById('creator-place');
+            }
+        var placeWidth = roundWalls * (25 + 2),
             fragment = document.createDocumentFragment();
+
+        document.getElementById('timer').setAttribute('visible', false);
 
         if (gridSettingsNumber > 0) {
             if (lastChange !== gridSettingsNumber) {
@@ -632,10 +689,17 @@ window.onload = function () {
             lastChange = parseFloat(gridSettingsNumber);
 
             for (var p = 0; p < sumOfPaths; p++) {
-                var path = document.createElement('div');
+                var path;
+                if (value) {
+                    path = document.createElement('a-plane');
+                    path.classList.add('grid-path');
+                    path.setAttribute('data-path-index', p);
+                } else {
+                    path = document.createElement('div');
+                    path.classList.add('path');
+                    path.dataset.pathIndex = p;
+                }
                 pathArray.push(p);
-                path.dataset.pathIndex = p;
-                path.classList.add('path');
 
                 fragment.appendChild(path);
             }
@@ -651,8 +715,13 @@ window.onload = function () {
         if (renderFinish) {
             var prev = 0,
                 outer = Array.from(pathArray).forEach(function (item) {
-                var pathItem = place.getElementsByClassName('path')[item],
-                    pathIndex = parseFloat(pathItem.dataset.pathIndex),
+                var pathItem;
+                if (vrView) {
+                    pathItem = place.querySelectorAll('.grid-path')[item];
+                } else {
+                    pathItem = place.querySelectorAll('.path')[item];
+                }
+                var pathIndex = parseFloat(pathItem.dataset.pathIndex),
                     isOutside = pathItem.dataset.pathIndex <= roundWalls
                     || pathItem.dataset.pathIndex - prev === roundWalls
                     || pathItem.dataset.pathIndex > sumOfPaths - roundWalls
@@ -731,11 +800,30 @@ window.onload = function () {
                         option: 0
                     });
                 }
-                pathItem.onclick = function (event) {
-                    if (labyrinthArray[pathIndex].active) {
-                        selectLabyrinthPath(event);
+                if (vrView) {
+                    if (!AFRAME.components['selectblock']) {
+                        AFRAME.registerComponent('selectblock', {
+                            init: function () {
+                                var scene = document.getElementById('labyrinth-scene');
+                                var selectedElement = this.el.object3D,
+                                    index = this.el.dataset.pathIndex,
+                                    el = this.el;
+                                
+                                this.el.addEventListener('click', function (evt) {
+                                    if (labyrinthArray[index].active && el.classList.contains('clickable')) {
+                                        selectLabyrinthPath(evt);
+                                    }
+                                });
+                            }
+                        });
                     }
-                };
+                } else {
+                    pathItem.onclick = function (event) {
+                        if (labyrinthArray[pathIndex].active) {
+                            selectLabyrinthPath(event);
+                        }
+                    };
+                }
             });
             document.getElementById('grid-settings').setAttribute('disabled', true);
             acceptButton.setAttribute('disabled', true);
@@ -743,17 +831,123 @@ window.onload = function () {
             mapArray = [...Array(roundWalls).keys()].reduce((prev, curr) => {
                 return [...prev,  pathArray.slice(roundWalls * curr, roundWalls * curr + roundWalls)];
             }, []);
+
+            if (vrView && value) {
+                mapArray.forEach(function (e, x) {
+                    mapArray.forEach(function (a, y) {
+                        var planes = document.querySelectorAll('.grid-path'),
+                            index = mapArray[x][y];
+                            // planes[index].setAttribute('animation', 'easing: easeOutElastic; from: 0 0 0; to: 0.7 0.7 1; property: scale; dur: 2500; elasticity: 600;');
+                            planes[index].setAttribute('scale', '0.7 0.7 1');
+                            planes[index].setAttribute('rotate', '0 0 0');
+                            planes[index].setAttribute('color', '#af71db');
+                            if (labyrinthArray[index].active && countClick === 0) {
+                                planes[index].classList.add('clickable');
+                            }
+                            if (planes[index].classList.contains('disabled')) {
+                                planes[index].setAttribute('color', '#333333');
+                            }
+                            planes[index].setAttribute('position', `${x} ${y} -1`);
+                    });
+                });
+                var gridPath = document.querySelectorAll('.grid-path');
+                Array.from(gridPath).forEach(function (e, i) {
+                    gridPath[i].setAttribute('selectblock', '');
+                });
+                vrInfo.setAttribute('value','Create your own labyrinth');
+                vrInfo.setAttribute('animation','property: position; from: 0 2.7 -1.4; to: 0 -20 -1.4; easing: easeInQuart; delay: 2000; dur: 1000');
+            }
+            document.getElementById('render-grid').setAttribute('animation', `easing: easeOutElastic; from: -${Math.round(value / 2)} 0 -20; to: -${Math.round(value / 2)} 0 -28; property: position; dur: 1500`);
             document.getElementById('settings-place').classList.add('hidden');
+        }
+        if (vrView) {
+            var gridValue = document.querySelectorAll('.get-grid-value');
+            if (!AFRAME.components['rendergrid']) {
+                AFRAME.registerComponent('rendergrid', {
+                    init: function () {
+                        var selectedElement = this.el.object3D,
+                            value = this.el.dataset.value;
+                        this.el.addEventListener('click', function (evt) {
+                            render2DPlane(value);
+                            Array.from(gridValue).forEach(function (ele) {
+                                ele.setAttribute('visible', false);
+                                ele.setAttribute('position', '0 -20 5');
+                            });
+                        });
+                    }
+                });
+            }
+            if (!AFRAME.components['startgame']) {
+                AFRAME.registerComponent('startgame', {
+                    init: function () {
+                        this.el.addEventListener('click', function () {
+                            renderLabyrinth();
+                            document.getElementById('render-vr').setAttribute('visible', false);
+                        });
+                    }
+                });
+            }
+            document.getElementById('start-game').setAttribute('startgame', '');
+
+            if (!AFRAME.components['togglecursor']) {
+                AFRAME.registerComponent('togglecursor', {
+                    init: function () {
+                        var cursor = document.querySelector('[cursor]'),
+                            visible = true;
+                        this.el.addEventListener('click', function (e) {
+                            if (visible) {
+                                cursor.setAttribute('visible', false);
+                                visible = false;
+                            } else {
+                                cursor.setAttribute('visible', true);
+                                visible = true;
+                            }
+                        });
+                    }
+                });
+            }
+            document.getElementById('toggle-cursor').setAttribute('togglecursor', '');
+            
+            Array.from(gridValue).forEach(function (e, i) {
+                gridValue[i].setAttribute('rendergrid', '');
+            });
+            preview3D.classList.remove('hidden');
+        } else {
+            /* open vr creator */
+            document.getElementById('vr-creator').addEventListener('click', function () {
+                var gridValue = document.querySelectorAll('.get-grid-value');
+                vrView = true;
+                document.getElementById('render-vr').setAttribute('visible', true);
+                document.getElementById('player').setAttribute('position', "0 2 0");
+                Array.from(gridValue).forEach(function (ele) {
+                    ele.setAttribute('visible', true);
+                });
+                gridValue[0].setAttribute('position', "-0.3 2.3 -1.14");
+                gridValue[1].setAttribute('position', "0 2.3 -1.14");
+                gridValue[2].setAttribute('position', "0.3 2.3 -1.14");
+                vrInfo.setAttribute('value','Chose your labyrinth grid');
+                vrInfo.setAttribute('position','0 2.7 -1.4');
+                vrInfo.removeAttribute('animation');
+                document.getElementById('render-grid').removeAttribute('animation');
+                document.getElementById('render-grid').removeAttribute('position', '0 0 -35');
+                render2DPlane();
+                document.querySelector('a-scene').enterVR();
+            });
         }
     }
 
     render2DPlane();
 
     if (!renderFinish) {
-        acceptButton.addEventListener('click', function (e) {render2DPlane(e)});
+        acceptButton.addEventListener('click', function () {
+            render2DPlane();
+        });
     }
 
-    applyLabyrinth.addEventListener('click', function () {renderLabyrinth()});
+    applyLabyrinth.addEventListener('click', function () {
+        document.getElementById('render-vr').setAttribute('visible', false);
+        renderLabyrinth();
+    });
 
     modalFunction([document.getElementById('help'), document.getElementById('another-maps')]);
 
