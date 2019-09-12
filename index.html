@@ -19,18 +19,23 @@
             </div>
             <div class="editor-body">
                 <div id="settings-place">
-                    <label for="creator-name">Creator name</label>
-                    <input id="creator-name" name="creator-name" type="text" placeholder="Write your name"/>
-                    <label for="grid-settings">Set number of columns</label>
-                    <input id="grid-settings" name="grid-settings" type="number" placeholder="0"/>
-                    <button id="accept-settings">Accept settings</button>
-                    <button id="vr-creator">Create in VR</button>
+                    <div>
+                        <p class="creator-title creator-2d">2D creator</p>
+                        <div class="creator-content collapsed">
+                            <label for="creator-name">Creator name</label>
+                            <input id="creator-name" name="creator-name" type="text" placeholder="Write your name"/>
+                            <label for="grid-settings">Set number of columns</label>
+                            <input id="grid-settings" name="grid-settings" type="number" placeholder="0"/>
+                            <button id="accept-settings">Accept settings</button>
+                        </div>
+                    </div>
+                    <button id="vr-creator">VR creator</button>
+                    <button id="another-maps" data-target="loadedMaps">See other maps <span class="maps-counter"></span></button>
+                    <button id="help" data-target="help-modal">Get some help</button>
                 </div>
                 <div id="creator-place"></div>
                 <div class="apply-block">
-                    <button id="apply">Let's go!</button>
-                    <button id="another-maps" data-target="loadedMaps">See other maps</button>
-                    <button id="help" data-target="help-modal">Get some help</button>
+                    <button id="apply">Start game!</button>
                     <h3 class="apply-error"></h3>
                 </div>
             </div>
@@ -44,7 +49,7 @@
             <ul class="help-info-list">
                 <li>1. Define the number of columns and type in your name.</li>
                 <li>
-                    <p>2. Createyour own labyrinth</p>
+                    <p>2. Create your own labyrinth with click or in vr look control</p>
                     <ul class="help-second">
                         <li class="text"><b>Legend:</b></li>
                         <li class="wall" data-color="#333"> - walls</li>
@@ -69,7 +74,8 @@
 
     <div class="preview">
         <a-scene  id="labyrinth-scene" background="color: #000;">
-            <a-entity id="player" position="0 2 0" light="type: point; color: #ffffff; intensity: 2; decay: 2; distance: 5;">
+            <a-entity id="player" position="0 0.5 0">
+                <a-entity position="0 1 0" light="type: point; color: #ffffff; intensity: 2; decay: 2; distance: 5;"></a-entity>
                 <a-entity laser-controls raycaster="far: 35"></a-entity>
                 <a-entity camera look-controls wasd-controls="enabled: false">
                     <a-entity id="cursor" position="0 0 -0.5" geometry="primitive: ring; radiusOuter: 0.012; radiusInner: 0.005;" material="color: #FFF;" cursor="fuseTimeout: 1000; fuse: true;" visible="true">
