@@ -665,7 +665,7 @@ function renderLabyrinth(loadedLab, indexMap) {
         }
 
         preview3D.classList.remove('hidden');
-        editor.classList.add('hidden');
+        // editor.classList.add('hidden');
         document.getElementById('loadedMaps').classList.add('hidden');
         document.getElementById('creator-place').innerHTML = '';
     }
@@ -729,9 +729,16 @@ function loadMapsPreview(m) {
     Array.from(document.querySelectorAll('.map-preview')).forEach(function (clickedMap) {
         clickedMap.addEventListener('click', function (e) {
             if (e.target.tagName !== 'P') {
+                document.querySelector('.editor').classList.remove('blury');
                 renderLabyrinth(loadMap[e.target.dataset.index], e.target.dataset.index);
             }
         });
+    });
+    // Start random map
+    document.getElementById('start-random').addEventListener('click', function () {
+        var randomIndex = Math.floor(Math.random() * loadMap.length);
+        console.log(parseFloat(randomIndex));
+        renderLabyrinth(loadMap[randomIndex], randomIndex);
     });
 }
 
