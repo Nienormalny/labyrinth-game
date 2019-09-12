@@ -231,6 +231,7 @@ h3 {
   transition: all 0.3s ease;
   background-color: rgba(47, 47, 47, 0.56);
   padding: 15px;
+  border-radius: 5px;
 }
 .creator-content.collapsed {
   height: 0;
@@ -294,6 +295,7 @@ h3 {
   padding: 25px;
   width: 200px;
   box-shadow: 2px 2px 10px -1px rgba(0, 0, 0, 0.306);
+  border-radius: 5px;
 }
 #settings-place label {
   font-size: 14px;
@@ -411,6 +413,7 @@ input {
   padding: 5px 10px;
   font-size: 14px;
   letter-spacing: 1px;
+  border-radius: 5px;
 }
 #accept-settings {
   background-color: rgb(14, 126, 246);
@@ -424,6 +427,11 @@ input {
 #apply {
   background-color: rgb(26, 206, 101);
   transition: transform 0.3s ease;
+  margin: 25px 0;
+  width: 150px;
+}
+.disabled-btn {
+  background-color: rgb(106, 106, 106) !important;
 }
 #another-maps {
   background-color: #af71db;
