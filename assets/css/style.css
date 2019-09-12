@@ -8,7 +8,7 @@
   }
 }
 * {
-  font-family: 'arial';
+  font-family: 'arial', sans-serif;
 }
 body:after {
   content: '';
@@ -116,11 +116,11 @@ h3 {
   background-color: rgb(253, 41, 41);
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0px 3px 7px -4px #727272;
+  box-shadow: 0 3px 7px -4px #727272;
 }
 .close-btn:hover {
   transform: scale(1.1);
-  box-shadow: 0px 3px 5px -4px #727272;
+  box-shadow: 0 3px 5px -4px #727272;
 }
 .close-btn > div {
   width: auto;
@@ -239,14 +239,12 @@ h3 {
 .creator-title {
   background-color: #1ace65;
   padding: 10px 0;
-  width: auto;
   text-align: center;
   color: white;
   width: 100px;
-  margin: auto;
+  margin: auto auto 15px auto;
   border-radius: 5px;
   cursor: pointer;
-  margin-bottom: 15px;
   transition: all 0.3s ease;
 }
 #loadedMaps,
@@ -262,7 +260,7 @@ h3 {
   width: 100vw;
   background-color: rgba(226, 226, 226, 0.592);
   padding-left: 60px;
-  transition: all 1s cubic-bezier(.4,.23,.54,.74);
+  transition: all .5s cubic-bezier(.4,.23,.54,.74);
   bottom: 0;
   opacity: 1;
 }
@@ -386,7 +384,6 @@ body .a-enter-vr {
 button {
   border: 0;
   padding: 10px;
-  font-size: 12px;
   color: white;
   cursor: pointer;
   outline: none;
@@ -450,7 +447,7 @@ input {
 .creator-title:hover,
 #vr-creator:hover {
   transform: scale(1.1);
-  box-shadow: 0px 3px 7px -4px #727272;
+  box-shadow: 0 3px 7px -4px #727272;
 }
 
 @media screen and (max-width: 768px) {
@@ -461,7 +458,7 @@ input {
   }
   h3 {
     font-size: 14px;
-    margin-top: 0px;
+    margin-top: 0;
   }
 }
 @media (max-width: 768px) {
@@ -476,7 +473,7 @@ input {
   }
   #loadedMaps .map-preview {
     margin-bottom: 20px;
-    box-shadow: 0px 3px 7px -4px #727272;
+    box-shadow: 0 3px 7px -4px #727272;
   }
   #loadedMaps .map-preview p {
     text-align: center;
