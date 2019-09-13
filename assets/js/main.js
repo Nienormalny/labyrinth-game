@@ -82,6 +82,49 @@ var startMaps = [{
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
     ],
     "time": {}
+}, {
+    "id": "ae98f001-f120-65a0-a0a0-6c08dc7e9b8f",
+    "creator": {
+        "id": "48cecb63-d953-0bc8-2b3d-64df49c55ce2",
+        "name": "Lvl 4",
+        "date": "13.09.2019"
+    },
+    "final": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 3, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "map": [
+        [992, 993, 994, 995, 996, 997, 998, 999, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1018, 1019, 1020, 1021, 1022, 1023],
+        [960, 961, 962, 963, 964, 965, 966, 967, 968, 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988, 989, 990, 991],
+        [928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948, 949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959],
+        [896, 897, 898, 899, 900, 901, 902, 903, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 925, 926, 927],
+        [864, 865, 866, 867, 868, 869, 870, 871, 872, 873, 874, 875, 876, 877, 878, 879, 880, 881, 882, 883, 884, 885, 886, 887, 888, 889, 890, 891, 892, 893, 894, 895],
+        [832, 833, 834, 835, 836, 837, 838, 839, 840, 841, 842, 843, 844, 845, 846, 847, 848, 849, 850, 851, 852, 853, 854, 855, 856, 857, 858, 859, 860, 861, 862, 863],
+        [800, 801, 802, 803, 804, 805, 806, 807, 808, 809, 810, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 830, 831],
+        [768, 769, 770, 771, 772, 773, 774, 775, 776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 795, 796, 797, 798, 799],
+        [736, 737, 738, 739, 740, 741, 742, 743, 744, 745, 746, 747, 748, 749, 750, 751, 752, 753, 754, 755, 756, 757, 758, 759, 760, 761, 762, 763, 764, 765, 766, 767],
+        [704, 705, 706, 707, 708, 709, 710, 711, 712, 713, 714, 715, 716, 717, 718, 719, 720, 721, 722, 723, 724, 725, 726, 727, 728, 729, 730, 731, 732, 733, 734, 735],
+        [672, 673, 674, 675, 676, 677, 678, 679, 680, 681, 682, 683, 684, 685, 686, 687, 688, 689, 690, 691, 692, 693, 694, 695, 696, 697, 698, 699, 700, 701, 702, 703],
+        [640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658, 659, 660, 661, 662, 663, 664, 665, 666, 667, 668, 669, 670, 671],
+        [608, 609, 610, 611, 612, 613, 614, 615, 616, 617, 618, 619, 620, 621, 622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639],
+        [576, 577, 578, 579, 580, 581, 582, 583, 584, 585, 586, 587, 588, 589, 590, 591, 592, 593, 594, 595, 596, 597, 598, 599, 600, 601, 602, 603, 604, 605, 606, 607],
+        [544, 545, 546, 547, 548, 549, 550, 551, 552, 553, 554, 555, 556, 557, 558, 559, 560, 561, 562, 563, 564, 565, 566, 567, 568, 569, 570, 571, 572, 573, 574, 575],
+        [512, 513, 514, 515, 516, 517, 518, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543],
+        [480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 495, 496, 497, 498, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511],
+        [448, 449, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479],
+        [416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447],
+        [384, 385, 386, 387, 388, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415],
+        [352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 381, 382, 383],
+        [320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351],
+        [288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319],
+        [256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287],
+        [224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255],
+        [192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223],
+        [160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191],
+        [128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159],
+        [96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127],
+        [64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95],
+        [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63],
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+    ],
+    "time": {}
 }];
 var countClick = 0,
     timer,
@@ -90,7 +133,6 @@ var countClick = 0,
     minutes = 0,
     seconds = 0,
     moveCounter = 0,
-    wasClickCount = 0,
     renderFinish = false,
     startSelected = false,
     pathSelected = false,
@@ -99,6 +141,7 @@ var countClick = 0,
     hover = false,
     vrView = false,
     finishSet = false,
+    finishSelected = false,
     pathArray = [],
     availablePathsArray = [],
     activePathArray = [],
@@ -117,6 +160,8 @@ var countClick = 0,
     newCreatedMap,
     newCreatedMapIndex,
     maps = [],
+    loadedMapObj = {},
+    loadedMapIndex = '',
     loadMap = JSON.parse(localStorage.getItem('maps')) ? JSON.parse(localStorage.getItem('maps')) : startMaps;
 
 /* === Usefull functions === */
@@ -155,7 +200,7 @@ function getCloseButton(targetModal) {
 
     closeBtnTemplate.addEventListener('click', function () {
         targetModal.classList.add('hidden');
-        targetModal.removeChild(closeBtnTemplate);
+        targetModal.innerHTML = '';
         document.querySelector('.editor').classList.remove('blury');
     });
 
@@ -167,10 +212,13 @@ function modalFunction(modalElements) {
             var el = e.target,
                 target = document.getElementById(el.dataset.target);
             if (target) {
+                if (target.id === 'loadedMaps' && loadMap.length > 0) {
+                    loadMapsPreview(loadMap);
+                }
                 target.classList.remove('hidden');
-            target.prepend(getCloseButton(target));
+                target.prepend(getCloseButton(target));
+                document.querySelector('.editor').classList.add('blury');
             }
-            document.querySelector('.editor').classList.add('blury');
         });
     }
 }
@@ -230,7 +278,7 @@ function showValidOptions(pathIndex) {
 
             pathOption.style.pointerEvents = 'auto';
             pathOption.classList.add('to-use');
-            if (vrView && !pathOption.classList.contains('selected') && !pathOption.classList.contains('start-selected') && !pathOption.classList.contains('start-selected')) {
+            if (vrView && !pathOption.classList.contains('selected') && !pathOption.classList.contains('start-selected') && !pathOption.classList.contains('finish') && !pathOption.classList.contains('start-selected')) {
                 pathOption.setAttribute('color', '#ec902e');
                 pathOption.classList.add('clickable');
             }
@@ -245,8 +293,8 @@ function showValidOptions(pathIndex) {
             } else {
                 pathElement = document.getElementsByClassName('path')[disOption.disable];
             }
-        var countDisabled = 0,
-            checkSelected = Array.from(disOption.options).forEach(function (opt) {
+        var countDisabled = 0;
+        Array.from(disOption.options).forEach(function (opt) {
             if (labyrinthArray[opt].selected) {
                 countDisabled = countDisabled + 1;
                 if (disOption.options.length === countDisabled) {
@@ -280,7 +328,6 @@ function showValidOptions(pathIndex) {
             }
         });
         if (!activePathArray[item]) {
-            // thisItem.style.pointerEvents = 'none';
             thisItem.classList.remove('to-use');
         }
     });
@@ -306,33 +353,34 @@ function selectStart(element, index) {
 /* === Selecting path function === */
 function selectPath(element, index, wasClick) {
     if (startSelected && renderFinish && labyrinthArray.length !== 0) {
-        if (vrView) {
-            element.setAttribute('color', '#1ace65');
-        }
         if (element.classList.contains('selected') && pathCountClick === 0 && !finishSet && wasClick) {
             pathCountClick = 1;
             finishSet = true;
-        } else if (pathCountClick === 1 && wasClick) {
-            pathCountClick = 2;
-        } else if (pathCountClick === 2 && element.classList.contains('finish') && wasClick) {
-            pathCountClick = 0;
-            finishSet = false;
+        } else if (pathCountClick === 1 && element.classList.contains('finish') && wasClick && finishSelected) {
             element.classList.remove('finish');
             element.classList.add('selected');
             if (vrView) {
                 element.setAttribute('color', '#1ace65');
             }
             labyrinthArray[index].option = 1;
+            pathCountClick = 0;
+            finishSet = false;
+            finishSelected = false;
+        } else if (!element.classList.contains('finish')) {
+            element.classList.add('selected');
+            if (vrView) {
+                element.setAttribute('color', '#1ace65');
+            }
+            labyrinthArray[index].option = 1;
         }
-        element.classList.add('selected');
-        if (pathCountClick === 1 && finishSet && wasClick) {
+        if (finishSet && wasClick && !finishSelected) {
             element.classList.add('finish');
             if (vrView) {
                 element.setAttribute('color', 'blue');
             }
-            // element.style.pointerEvents = 'none';
             element.classList.remove('selected');
             labyrinthArray[index].option = 3;
+            finishSelected = true;
         }
         showValidOptions(index);
     }
@@ -355,8 +403,13 @@ function selectLabyrinthPath(event, wasClick) {
 }
 /* === Setting rest nonechoosed options to disabled (Walls) === */
 function setRestToDisabled() {
-    var disableBlock = Object.keys(labyrinthArray).map(function (block) {
-        var pathElement = document.getElementsByClassName('path')[block];
+    Object.keys(labyrinthArray).map(function (block) {
+        var pathElement;
+        if (vrView) {
+            pathElement = document.getElementsByClassName('grid-path')[block];
+        } else {
+            pathElement = document.getElementsByClassName('path')[block];
+        }
         if (!labyrinthArray[block].selected) {
             labyrinthArray[block].active = false;
             pathElement.classList.remove('to-use');
@@ -372,10 +425,14 @@ function setRestToDisabled() {
     ]
 */
 function convertBlocks() {
-    // labyrinthArray[lastClicked].option = 3;
-    document.getElementsByClassName('path')[lastClicked].classList.remove('to-use');
-    // document.getElementsByClassName('path')[lastClicked].classList.add('finish');
-    var convert = Object.keys(labyrinthArray).map(function (path) {
+    var path;
+    if (vrView) {
+        path = document.getElementsByClassName('grid-path');
+    } else {
+        path = document.getElementsByClassName('path');
+    }
+    path[lastClicked].classList.remove('to-use');
+    Object.keys(labyrinthArray).map(function (path) {
         if (labyrinthArray[path].active && labyrinthArray[path].selected && labyrinthArray[path].option === 0) {
             labyrinthArray[path].option = 1;
         }
@@ -452,6 +509,7 @@ function generate3DBlocks(map, final) {
     });
     document.getElementById('timer').setAttribute('visible', true);
     scene.appendChild(container);
+    document.querySelector('[cursor]').setAttribute('cursor', `fuseTimeout: 1000; fuse: true;`);
 }
 /* === Setting player position === */
 function setPlayerPosition() {
@@ -493,6 +551,10 @@ function saveBestTimeOwner(map, index) {
                         map = newCreatedMap.id;
                         index = newCreatedMapIndex;
                     }
+                    if (loadedMapObj && loadedMapIndex) {
+                        map = loadedMapObj;
+                        index = loadedMapIndex;
+                    }
                     if (ownerName.value !== '') {
                         ownerSaved = true;
 
@@ -528,6 +590,7 @@ function resetStats() {
     document.getElementById('hiscore-owner').classList.add('hidden');
     document.getElementById('timer').setAttribute('value', '00:00:00');
     document.querySelector('.creator-content').classList.add('collapsed');
+    document.getElementById('creator-place').classList.add('hidden');
     renderFinish = false;
     countClick = 0;
     countClick = 0;
@@ -537,7 +600,6 @@ function resetStats() {
     seconds = 0;
     moveCounter = 0;
     pathCountClick= 0;
-    wasClickCount= 0;
     renderFinish = false;
     startSelected = false;
     pathSelected = false;
@@ -546,6 +608,7 @@ function resetStats() {
     ownerSaved = false;
     vrView = false;
     finishSet = false;
+    finishSelected = false;
     pathArray = [];
     availablePathsArray = [];
     activePathArray = [];
@@ -559,6 +622,8 @@ function resetStats() {
     newArr = [];
     mapArray = [];
     maps = [];
+    loadedMapIndex = '';
+    loadedMapObj = {};
     newCreatedMap = undefined;
     newCreatedMapIndex = '';
     Array.from(scene.children).forEach(function (el) {
@@ -580,7 +645,7 @@ function resetStats() {
     document.getElementById('creator-name').value = '';
     document.getElementById('render-grid').value = '';
     document.querySelector('.maps-counter').innerHTML = `( ${loadMap.length} )`;
-    loadMapsPreview(loadMap);
+    document.getElementById('loadedMaps').classList.add('hidden');
 }
 /* === Player control - moving function === */
 function movePlayer(mapId, mapIndex) {
@@ -603,8 +668,9 @@ function movePlayer(mapId, mapIndex) {
                         clearTimeout(timer);
                         if (newCreatedMapIndex) {
                             saveBestTimeOwner(newCreatedMap.id, newCreatedMapIndex);
-                        } else {
-                            saveBestTimeOwner(mapId, mapIndex);
+                        }
+                        if (loadedMapIndex !== '') {
+                            saveBestTimeOwner(loadedMapObj.id, loadedMapIndex);
                         }
                     }
                     /* Set new color on path block for a 20sec (something like footsteps) */
@@ -630,23 +696,9 @@ function movePlayer(mapId, mapIndex) {
 }
 
 function renderLabyrinth(loadedLab, indexMap) {
-    if (!loadedLab && !indexMap) {
-        var errorMsg = document.getElementsByClassName('apply-error')[0],
-            message = '';
-        /* Validation for selected blocks - "how much have you still to select" */
-        if (labyrinthArray.length === 0 && !vrView) {
-            message = 'Please define your map first, or load a created one, before you can start';
-            errorMsg.style.display = 'block';
-        } else if ((labyrinthArray.length / 3) - 5 <= countSelectedBlocks || vrView) {
-            errorMsg.style = '';
-            setRestToDisabled();
-            convertBlocks();
-        } else {
-            message = 'Please select more blocks. <br> <b>Blocks to select:</b> ' + Math.round((labyrinthArray.length / 3) - countSelectedBlocks) + '<br> <b>Selected Blocks: </b>' + countSelectedBlocks;
-            errorMsg.style.display = 'block';
-        }
-        errorMsg.innerHTML = message;
-    } else {
+    if (loadedLab && indexMap) {
+        loadedLab = loadedMapObj;
+        indexMap = loadedMapIndex;
         finishConverting = true;
         renderFinish = true;
         startSelected = true;
@@ -762,7 +814,10 @@ function loadMapsPreview(m) {
         clickedMap.addEventListener('click', function (e) {
             if (e.target.tagName !== 'P') {
                 document.querySelector('.editor').classList.remove('blury');
-                renderLabyrinth(loadMap[e.target.dataset.index], e.target.dataset.index);
+                loadedMapIndex = e.target.dataset.index;
+                loadedMapObj = loadMap[loadedMapIndex];
+                renderLabyrinth(true, true);
+                document.querySelector('a-scene').setAttribute('visible', true);
             }
         });
     });
@@ -772,10 +827,10 @@ window.onload = function () {
     var loaded = document.getElementById('loadedMaps'),
         preview3D = document.querySelector('.preview'),
         gridSelect = document.getElementById('grid-settings'),
-        loadMaps = this.loadMap,
         lastChange = 0;
 
     preview3D.classList.add('hidden');
+    document.querySelector('a-scene').setAttribute('visible', false);
     loaded.classList.add('hidden');
     applyLabyrinth = document.getElementById('apply');
     document.getElementById('timer').setAttribute('visible', false);
@@ -941,9 +996,8 @@ window.onload = function () {
                 } else {
                     if (hover) {
                         pathItem.addEventListener('mouseover', function (event) {
-                            console.log('HOVEr', event);
                             if (labyrinthArray[pathIndex].active && startSelected) {
-                                selectLabyrinthPath(event);
+                                selectLabyrinthPath(event, false);
                             }
                         });
                     }
@@ -967,8 +1021,8 @@ window.onload = function () {
                     mapArray.forEach(function (a, y) {
                         var planes = document.querySelectorAll('.grid-path'),
                             index = mapArray[x][y];
-                            // planes[index].setAttribute('animation', 'easing: easeOutElastic; from: 0 0 0; to: 0.7 0.7 1; property: scale; dur: 2500; elasticity: 600;');
-                            planes[index].setAttribute('scale', '0.7 0.7 1');
+                            planes[index].setAttribute('scale', '0 0 0');
+                            planes[index].setAttribute('animation', 'easing: easeOutElastic; from: 0 0 -' + index + '; to: 0.7 0.7 1; property: scale; dur: 3500; elasticity: 600; delay: ' + index + '0');
                             planes[index].setAttribute('rotate', '0 0 0');
                             planes[index].setAttribute('color', '#af71db');
                             if (labyrinthArray[index].active && countClick === 0) {
@@ -985,9 +1039,10 @@ window.onload = function () {
                     gridPath[i].setAttribute('selectblock', '');
                 });
                 vrInfo.setAttribute('value','Create your own labyrinth');
-                vrInfo.setAttribute('animation','property: position; from: 0 2.7 -1.4; to: 0 -20 -1.4; easing: easeInQuart; delay: 2000; dur: 1000');
+                vrInfo.setAttribute('animation','property: position; from: 0 2.7 -1.4; to: 0 -20 -1.4; easing: easeInQuart; delay: 3000; dur: 1500');
             }
-            document.getElementById('render-grid').setAttribute('animation', `easing: easeOutElastic; from: -${Math.round(value / 2)} 0 -20; to: -${Math.round(value / 2)} 0 -28; property: position; dur: 1500`);
+            document.getElementById('render-grid').setAttribute('animation', `easing: easeOutElastic; from: -${Math.round(value / 2)} 0 -30; to: -${Math.round(value / 2)} 0 -25; property: position; dur: 1500;`);
+            document.querySelector('[cursor]').setAttribute('cursor', `fuseTimeout: 300; fuse: true;`);
             document.getElementById('settings-place').classList.add('hidden');
             document.getElementById('creator-place').classList.remove('hidden');
         }
@@ -1013,9 +1068,11 @@ window.onload = function () {
                     init: function () {
                         this.el.addEventListener('click', function () {
                             if (finishSet) {
+                                setRestToDisabled();
+                                convertBlocks();
                                 document.getElementById('error-info-vr').setAttribute('visible', false);
-                                renderLabyrinth();
                                 document.getElementById('render-vr').setAttribute('visible', false);
+                                renderLabyrinth();
                             } else {
                                 document.getElementById('error-info-vr').setAttribute('visible', true);
                             }
@@ -1054,6 +1111,7 @@ window.onload = function () {
                 var gridValue = document.querySelectorAll('.get-grid-value');
                 vrView = true;
                 document.getElementById('render-vr').setAttribute('visible', true);
+                document.querySelector('a-scene').setAttribute('visible', true);
                 document.getElementById('player').setAttribute('position', "0 2 0");
                 Array.from(gridValue).forEach(function (ele) {
                     ele.setAttribute('visible', true);
@@ -1078,7 +1136,6 @@ window.onload = function () {
         gridSelect.children[i].addEventListener('click', function (event) {
             var target = event.target;
             var targetValue = target.dataset.gridValue;
-            console.log(targetValue);
             applyLabyrinth.classList.remove('hidden');
             render2DPlane(targetValue);
         });
@@ -1098,11 +1155,21 @@ window.onload = function () {
             var errorMsg = document.getElementsByClassName('apply-error')[0],
                 message = '';
             document.getElementById('render-vr').setAttribute('visible', false);
-            if (finishSet) {
-                errorMsg.removeAttribute('style');
-                renderLabyrinth();
-            } else {
-                message = 'Please select FINISH point';
+            
+            if ((labyrinthArray.length / 3) - 5 <= countSelectedBlocks || vrView) {
+                errorMsg.style = '';
+                setRestToDisabled();
+                convertBlocks();
+                if (finishSet) {
+                    errorMsg.removeAttribute('style');
+                    document.querySelector('a-scene').setAttribute('visible', true);
+                    renderLabyrinth();
+                } else {
+                    message = 'Please select FINISH point';
+                    errorMsg.style.display = 'block';
+                }
+            } else if (!finishConverting) {
+                message = 'Please select more blocks. <br> <b>Blocks to select:</b> ' + Math.round((labyrinthArray.length / 3) - countSelectedBlocks) + '<br> <b>Selected Blocks: </b>' + countSelectedBlocks;
                 errorMsg.style.display = 'block';
             }
             errorMsg.innerHTML = message;
@@ -1110,11 +1177,17 @@ window.onload = function () {
     });
 
     document.querySelector('a-scene').addEventListener('exit-vr', function () {
-        document.querySelector('.panel-settings').classList.add('hidden');
-        document.getElementById('creator-place').classList.add('hidden');
+        setTimeout(function () {
+            if (document.getElementById('hiscore-owner').classList.contains('hidden')) {
+                resetStats();
+            }
+        }, 500);
         if (document.querySelector('.close-btn')) {
             document.querySelector('.close-btn').remove();
         }
+    });
+    document.querySelector('a-scene').addEventListener('enter-vr', function () {
+        document.getElementById('loadedMaps').innerHTML = '';
     });
 
     document.querySelector('.checkbox').addEventListener('click', function (el) {
@@ -1128,8 +1201,4 @@ window.onload = function () {
     });
 
     modalFunction([document.getElementById('help'), document.getElementById('another-maps')]);
-
-    if (loadMaps.length > 0) {
-        this.loadMapsPreview(loadMaps);
-    }
 };
