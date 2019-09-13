@@ -5,15 +5,15 @@ I tested it with Gear VR (Samsung) so I can tell that Samsung Internet VR and Oc
 
 The main thought is to train your memory while you always have that little taste of competition.
 
-## How to play
-
+# How to play
+## 2D Creator
 ### 1. Define the number of **columns** and type in your name.
 
-![Creator](http://nienormalny.org/labirynt-game/assets/img/creator.png)
+![Creator](http://nienormalny.org/labirynt-game/assets/img/2D_creator_part_2.png)
 
 ### 2. Create your own labyrinth
 
-![Labyrinth editor](http://nienormalny.org/labirynt-game/assets/img/lab-creator.png)
+![Labyrinth editor](http://nienormalny.org/labirynt-game/assets/img/2D_creator_part_3.png)
 
 **Legend:**
 - ![#333333](https://placehold.it/15/333333/000000?text=+) - walls
@@ -23,17 +23,20 @@ The main thought is to train your memory while you always have that little taste
 - ![#fff784](https://placehold.it/15/fff784/000000?text=+) - choosable option
 - ![#af71db](https://placehold.it/15/af71db/000000?text=+) - option to chose
 
+**Example:**
+![Example](http://nienormalny.org/labirynt-game/assets/img/2D_creator_part_example.png)
+
 ### 3. Start the game and enjoy your way!
-![start game](http://nienormalny.org/labirynt-game/assets/img/Start.png)
-![gameplay](http://nienormalny.org/labirynt-game/assets/img/gameplay.png)
 
 **Description:**
-To move forward just look at the next `step`/`block`. (In future I will implement controllers!)
+To move forward just look at the next `step`/`block` or use your controller.
 
 ### 4. Load your created Labyrinths
-![select map](http://nienormalny.org/labirynt-game/assets/img/select-maps.png)
+![select map](http://nienormalny.org/labirynt-game/assets/img/Load_part_1.png)
 
-![load created maps](http://nienormalny.org/labirynt-game/assets/img/loaded-maps.png)
+![load created maps](http://nienormalny.org/labirynt-game/assets/img/Load_part_2.png)
+
+Just click on map to select already created map.
 
 **Description:**
 - On top of the preview, you can see who has created the labyrinth.
