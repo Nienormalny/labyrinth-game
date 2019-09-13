@@ -15,6 +15,7 @@ body:after {
   display: block;
   width: 100vw;
   height: 100vh;
+  position: absolute;
   background: rgb(11, 28, 35);
   background: linear-gradient(180deg, rgba(2,0,36,1) 16%, rgba(36,9,121,1) 56%, rgba(161,59,255,1) 100%);
   /* animation-duration: 10s;
@@ -25,11 +26,11 @@ body:after {
 body.aframe-inspector-opened:after {
   content: 'NO, NO, NO! WRONG WAY CHEATER!';
   color: white;
-  z-index: 999999;
   position: absolute;
   text-align: center;
   font-size: 25px;
   line-height: 100vh;
+  z-index: 9999999;
 }
 .aframe-inspector-opened .editor {
   display: none !important;
